@@ -35,7 +35,7 @@
         <div class="dot-bg-highlight absolute inset-0"></div>
     </div>
 
-    <!-- Header Flutuante da Homepage (inicia escondido) -->
+    <!-- Header Flutuante -->
     <nav id="main-nav" class="fixed top-0 left-0 w-full h-[76px] px-6 md:px-12 z-40 flex justify-end items-center backdrop-blur-md border-b border-outline-variant/30 bg-background/80 transition-all duration-500 -translate-y-full opacity-0 pointer-events-none">
         <button id="menu-toggle" class="group flex items-center gap-3 text-on-background hover:text-primary transition-colors pointer-events-auto">
             <span class="font-label-mono text-sm uppercase tracking-widest hidden md:block">Menu</span>
@@ -48,7 +48,7 @@
         <span id="typewriter-logo" class="typewriter-cursor">so</span>
     </a>
 
-    <!-- Menu Overlay (Idêntico ao do Default) -->
+    <!-- Menu Overlay -->
     <div id="full-menu" class="fixed inset-0 bg-surface-container-lowest/95 backdrop-blur-xl z-[100] transition-transform duration-500 translate-x-full flex flex-col md:flex-row">
         <button id="close-menu" class="absolute top-6 right-6 md:right-12 text-on-background hover:text-primary transition-colors group p-2 z-50">
              <span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">close</span>
@@ -64,14 +64,15 @@
         </div>
         <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center">
             <ul class="flex flex-col gap-6 md:gap-12 font-display text-4xl md:text-7xl font-bold tracking-tight">
+                <!-- CORREÇÃO DOS LINKS AQUI TAMBÉM -->
                 <li><a href="{{ site.baseurl }}/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Início</a></li>
-                <li><a href="{{ site.baseurl }}/autores.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
-                <li><a href="{{ site.baseurl }}/manifesto.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
+                <li><a href="{{ site.baseurl }}/autores/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
+                <li><a href="{{ site.baseurl }}/manifesto/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
             </ul>
         </div>
     </div>
 
-    <!-- Barra de Progresso do Scroll -->
+    <!-- Barra de Progresso -->
     <div class="fixed bottom-0 left-0 w-full h-1 bg-surface-container-high z-50">
         <div id="progress-bar" class="h-full bg-primary w-0 origin-left"></div>
     </div>
@@ -81,21 +82,18 @@
     <main class="fixed top-0 left-0 w-full h-screen overflow-hidden z-10">
         <div id="horizontal-container" class="horizontal-track flex h-full items-center pt-20">
             
-            <!-- 1. Hero -->
             <section class="w-screen h-full shrink-0 flex flex-col justify-center relative">
                 <div class="absolute bottom-12 right-12 md:right-24 flex items-center gap-4 text-on-surface-variant font-label-mono text-sm uppercase tracking-widest animate-pulse">
                     <span>Role para explorar</span> <span class="material-symbols-outlined">arrow_forward</span>
                 </div>
             </section>
 
-            <!-- 2. Arquivo Intro -->
             <section class="w-[40vw] md:w-[30vw] shrink-0 px-12 md:px-24 flex flex-col justify-center border-l border-outline-variant/30 h-full">
                 <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-4">Arquivo.</h2>
                 <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-sm">Nossos últimos ensaios</p>
                 <span class="w-24 h-[1px] bg-outline-variant mt-8"></span>
             </section>
 
-            <!-- 3. LOOP DO JEKYLL: Cards Horizontais dos Artigos -->
             <section class="flex gap-8 px-6 md:px-12 shrink-0 pr-24">
                 {% for post in site.posts %}
                 <article class="w-[300px] md:w-[400px] h-[60vh] flex flex-col border border-outline-variant/30 bg-surface-container-lowest/80 group">
@@ -108,6 +106,7 @@
                             <div class="font-label-mono text-on-surface-variant text-xs mb-3">{{ post.date | date: "%d.%m.%Y" }}</div>
                             <h3 class="font-headline text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors">{{ post.title }}</h3>
                         </div>
+                        <!-- CORREÇÃO DO LINK DO ARTIGO -->
                         <a href="{{ site.baseurl }}{{ post.url }}" class="font-label-mono text-xs uppercase tracking-widest hover:text-primary transition-colors">Ler -></a>
                     </div>
                 </article>
@@ -119,14 +118,12 @@
     <script>
         document.addEventListener('mousemove', (e) => { document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`); document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`); });
 
-        // Menu Toggle
         const fullMenu = document.getElementById('full-menu');
         const menuToggle = document.getElementById('menu-toggle');
         const closeMenu = document.getElementById('close-menu');
         menuToggle.addEventListener('click', () => { fullMenu.classList.remove('translate-x-full'); });
         closeMenu.addEventListener('click', () => { fullMenu.classList.add('translate-x-full'); });
 
-        // Typewriter Effect
         document.addEventListener('DOMContentLoaded', () => {
             const phrases = ['sobre o dólar', 'sobre o futuro', 'sobre a arte', 'sobre o código', 'sobre.'];
             let currentPhraseIndex = 0, isDeleting = false, currentText = '', typingSpeed = 100;
@@ -145,7 +142,6 @@
             if (logoElement) setTimeout(type, 500);
         });
 
-        // Horizontal Scroll + Logo Transition
         const container = document.getElementById('horizontal-container');
         const proxy = document.getElementById('scroll-proxy');
         const progressBar = document.getElementById('progress-bar');
@@ -165,7 +161,6 @@
             const maxScroll = proxy.offsetHeight - window.innerHeight;
             if (maxScroll > 0) progressBar.style.width = `${(currentScroll / maxScroll) * 100}%`;
 
-            // Magic Logo Transition
             if (currentScroll > 50 && !isLogoScrolled) {
                 isLogoScrolled = true;
                 nav.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
