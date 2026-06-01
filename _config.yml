@@ -1,5 +1,5 @@
 name: sobre.
-description: nossos aforismos
-baseurl: "" # Deixe vazio se for no root (dominio.com) ou coloque "/nome-do-repo" se for github.io/nome-do-repo
+description: aforismos
+baseurl: "" # Deixe vazio. Se o layout quebrar no GitHub, mude para "/nome-do-seu-repositorio"
 theme: minima
 permalink: /:categories/:year/:month/:day/:title/
