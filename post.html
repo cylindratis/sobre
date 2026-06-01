@@ -1,0 +1,56 @@
+---
+layout: default
+---
+<style>
+    .article-content > p:first-of-type::first-letter {
+        font-family: 'Geist', sans-serif;
+        font-size: 4rem; line-height: 0.8; float: left;
+        margin-right: 0.5rem; margin-bottom: -0.2rem;
+        color: theme('colors.primary'); font-weight: bold;
+    }
+</style>
+
+<!-- Reading Progress Bar -->
+<div class="fixed top-[76px] left-0 w-full h-1 bg-surface-container-highest z-50">
+    <div id="reading-progress" class="h-full bg-primary w-0 origin-left transition-all duration-150 ease-out"></div>
+</div>
+
+<main class="relative z-10 pt-32 pb-24 min-h-screen">
+    
+    <header class="px-6 md:px-12 max-w-[800px] mx-auto text-center mb-16">
+        <div class="inline-flex items-center gap-2 mb-8 font-label-mono text-primary uppercase tracking-widest text-xs">
+            <span class="w-8 h-[1px] bg-primary"></span> {{ page.category }}
+        </div>
+        
+        <h1 class="font-headline-lg text-[40px] md:text-[64px] leading-[1.1] font-bold mb-8 tracking-tight">{{ page.title }}</h1>
+        <p class="text-xl md:text-2xl text-on-surface-variant font-body-md mb-12 leading-relaxed">{{ page.description }}</p>
+        
+        <div class="flex items-center justify-center gap-4 text-left">
+            <img src="{{ page.author_image }}" alt="{{ page.author }}" class="w-12 h-12 object-cover border border-outline-variant/30">
+            <div class="font-label-mono text-xs">
+                <p class="text-on-background uppercase tracking-widest font-bold">{{ page.author }}</p>
+                <p class="text-on-surface-variant mt-1">{{ page.date | date: "%d.%m.%Y" }}</p>
+            </div>
+        </div>
+    </header>
+
+    <figure class="w-full max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
+        <div class="w-full h-[40vh] md:h-[70vh] border border-outline-variant/30 overflow-hidden relative">
+            <img src="{{ page.image }}" alt="Capa" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+        </div>
+    </figure>
+
+    <article class="article-content px-6 md:px-12 max-w-[700px] mx-auto text-lg md:text-xl text-on-surface leading-loose space-y-8">
+        <!-- O TEXTO DO SEU ARQUIVO MARKDOWN ENTRA AQUI -->
+        {{ content }}
+    </article>
+</main>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('reading-progress').style.width = scrolled + "%";
+    });
+</script>
