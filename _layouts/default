@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Ibm+Plex+Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
-    <!-- Tailwind CSS & Config -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -40,8 +40,6 @@
       ::-webkit-scrollbar { width: 6px; }
       ::-webkit-scrollbar-track { background: #131316; }
       ::-webkit-scrollbar-thumb { background: #353438; }
-
-      /* Fundo de pontos interativo */
       .dot-bg-base { background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px); background-size: 24px 24px; opacity: 0.4; }
       .dot-bg-highlight { background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px); background-size: 24px 24px; -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%); }
     </style>
@@ -65,13 +63,12 @@
         </button>
     </nav>
 
-    <!-- Menu Hambúrguer (Duas Colunas, sem Contato) -->
+    <!-- Menu Hambúrguer -->
     <div id="full-menu" class="fixed inset-0 bg-surface-container-lowest/95 backdrop-blur-xl z-[100] transition-transform duration-500 translate-x-full flex flex-col md:flex-row">
         <button id="close-menu" class="absolute top-6 right-6 md:right-12 text-on-background hover:text-primary transition-colors group p-2 z-50">
              <span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">close</span>
         </button>
         
-        <!-- Esquerda: Logo e Infos -->
         <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/30">
             <div class="flex flex-col items-start max-w-lg">
                 <a href="{{ site.baseurl }}/" class="font-headline font-bold text-[64px] md:text-[120px] leading-none text-primary hover:opacity-80 transition-opacity">sobre.</a>
@@ -82,27 +79,24 @@
             </div>
         </div>
 
-        <!-- Direita: Links -->
         <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center">
             <ul class="flex flex-col gap-6 md:gap-12 font-display text-4xl md:text-7xl font-bold tracking-tight">
+                <!-- AQUI ESTÁ A CORREÇÃO: Usando site.baseurl e tirando o .html -->
                 <li><a href="{{ site.baseurl }}/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Início</a></li>
-                <li><a href="{{ site.baseurl }}/autores.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
-                <li><a href="{{ site.baseurl }}/manifesto.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
+                <li><a href="{{ site.baseurl }}/autores/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
+                <li><a href="{{ site.baseurl }}/manifesto/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
             </ul>
         </div>
     </div>
 
-    <!-- O CONTEÚDO DAS PÁGINAS É INJETADO AQUI -->
     {{ content }}
 
     <script>
-        // Efeito do mouse no background
         document.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
             document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        // Lógica do Menu
         const fullMenu = document.getElementById('full-menu');
         const menuToggle = document.getElementById('menu-toggle');
         const closeMenu = document.getElementById('close-menu');
