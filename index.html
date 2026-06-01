@@ -1,65 +1,50 @@
+---
+# Esta página não usa o default.html porque a rolagem dela é especial (Horizontal)
+---
 <!DOCTYPE html>
 <html class="dark" lang="pt-BR">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>{{ page.title | default: site.name }}</title>
-    
+    <title>{{ site.name }}</title>
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Ibm+Plex+Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Ibm+Plex+Serif:wght@400;500;700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class", 
-            theme: {
-                extend: {
-                    colors: {
-                        surface: "#131316", background: "#131316", "surface-container-lowest": "#0e0e11",
-                        "surface-container-high": "#2a2a2d", "on-background": "#e4e1e6", "on-surface": "#e4e1e6",
-                        "on-surface-variant": "#c7c6ca", "outline-variant": "#46464a", 
-                        primary: "#c8c6c8", secondary: "#ffb59d", "tertiary-fixed": "#e2e2e3"
-                    }, 
-                    fontFamily: {
-                        "body-md": ["Ibm Plex Serif", "serif"], 
-                        display: ["Geist", "sans-serif"], 
-                        "label-mono": ["Geist Mono", "monospace"], 
-                        headline: ["Geist", "sans-serif"]
-                    }
-                }
-            }
-        };
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { surface: "#131316", background: "#131316", "surface-container-lowest": "#0e0e11", "surface-container-high": "#2a2a2d", "on-background": "#e4e1e6", "on-surface": "#e4e1e6", "on-surface-variant": "#c7c6ca", "outline-variant": "#46464a", primary: "#c8c6c8", secondary: "#ffb59d", "tertiary-fixed": "#e2e2e3" }, fontFamily: { "body-md": ["Ibm Plex Serif", "serif"], display: ["Geist", "sans-serif"], "label-mono": ["Geist Mono", "monospace"], headline: ["Geist", "sans-serif"] } } } };
     </script>
-    
     <style>
       :root { --mouse-x: -1000px; --mouse-y: -1000px; }
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #131316; }
-      ::-webkit-scrollbar-thumb { background: #353438; }
-
+      ::-webkit-scrollbar { width: 0px; background: transparent; } body { -ms-overflow-style: none; scrollbar-width: none; overscroll-behavior-y: none; }
       .dot-bg-base { background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px); background-size: 24px 24px; opacity: 0.4; }
       .dot-bg-highlight { background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px); background-size: 24px 24px; -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%); }
+      .typewriter-cursor::after { content: '|'; animation: blink 1s step-end infinite; margin-left: 2px; font-weight: 400; color: inherit; } @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+      #scroll-proxy { width: 1px; } .horizontal-track { will-change: transform; }
+      .img-hover-container img { transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease; }
+      .img-hover-container:hover img { transform: scale(1.05); filter: grayscale(0%); }
     </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-primary selection:text-on-primary">
+<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-secondary selection:text-on-secondary">
     
     <div class="fixed inset-0 pointer-events-none z-0">
         <div class="dot-bg-base absolute inset-0"></div>
         <div class="dot-bg-highlight absolute inset-0"></div>
     </div>
 
-    <!-- Navegação Padrão -->
-    <nav class="fixed top-0 left-0 w-full h-[76px] px-6 md:px-12 z-40 flex justify-between items-center backdrop-blur-md border-b border-outline-variant/30 bg-background/80">
-        <a href="{{ site.baseurl }}/" class="font-headline font-bold text-2xl text-on-background hover:text-primary transition-colors">
-            sobre<span class="text-primary">.</span>
-        </a>
-        <button id="menu-toggle" class="group flex items-center gap-3 text-on-background hover:text-primary transition-colors">
+    <!-- Header Flutuante da Homepage -->
+    <nav id="main-nav" class="fixed top-0 left-0 w-full h-[76px] px-6 md:px-12 z-40 flex justify-end items-center backdrop-blur-md border-b border-outline-variant/30 bg-background/80 transition-all duration-500 -translate-y-full opacity-0 pointer-events-none">
+        <button id="menu-toggle" class="group flex items-center gap-3 text-on-background hover:text-primary transition-colors pointer-events-auto">
             <span class="font-label-mono text-sm uppercase tracking-widest hidden md:block">Menu</span>
             <span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300">menu</span>
         </button>
     </nav>
+
+    <!-- Logo Mágico -->
+    <a href="{{ site.baseurl }}/" id="floating-logo" class="fixed z-50 font-headline font-bold transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] top-1/2 left-6 md:left-12 lg:left-24 -translate-y-1/2 text-[64px] sm:text-[96px] md:text-[140px] lg:text-[180px] text-primary hover:opacity-80">
+        <span id="typewriter-logo" class="typewriter-cursor">so</span>
+    </a>
 
     <!-- Menu Overlay -->
     <div id="full-menu" class="fixed inset-0 bg-surface-container-lowest/95 backdrop-blur-xl z-[100] transition-transform duration-500 translate-x-full flex flex-col md:flex-row">
@@ -84,19 +69,124 @@
         </div>
     </div>
 
-    <!-- O CONTEÚDO DA PÁGINA OU ARTIGO É INJETADO AQUI -->
-    {{ content }}
+    <div class="fixed bottom-0 left-0 w-full h-1 bg-surface-container-high z-50"><div id="progress-bar" class="h-full bg-primary w-0 origin-left"></div></div>
+    <div id="scroll-proxy"></div>
+
+    <main class="fixed top-0 left-0 w-full h-screen overflow-hidden z-10">
+        <div id="horizontal-container" class="horizontal-track flex h-full items-center pt-20">
+            
+            <!-- 1. Hero -->
+            <section class="w-screen h-full shrink-0 flex flex-col justify-center relative">
+                <div class="absolute bottom-12 right-12 md:right-24 flex items-center gap-4 text-on-surface-variant font-label-mono text-sm uppercase tracking-widest animate-pulse">
+                    <span>Role para explorar</span> <span class="material-symbols-outlined">arrow_forward</span>
+                </div>
+            </section>
+
+            <!-- 2. Destaques Fixos -->
+            <section class="w-[90vw] md:w-[75vw] h-[75vh] shrink-0 mx-6 md:mx-12 flex flex-col-reverse md:flex-row border border-outline-variant/30 bg-surface-container-lowest/80 backdrop-blur-sm">
+                <div class="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+                    <div class="inline-flex items-center gap-2 mb-6 font-label-mono text-primary uppercase tracking-widest text-xs">
+                        <span class="w-8 h-[1px] bg-primary"></span> Economia
+                    </div>
+                    <h2 class="font-headline-lg text-[32px] md:text-[44px] leading-[1.1] mb-6 font-bold tracking-tight">O impacto do dólar na nova economia digital.</h2>
+                    <p class="text-lg text-on-surface-variant mb-8 line-clamp-4 md:line-clamp-none">Uma análise profunda sobre como as flutuações cambiais estão redefinindo o mercado de tecnologia...</p>
+                    <a href="#" class="w-fit font-label-mono text-xs uppercase tracking-widest text-primary border border-primary/50 px-6 py-3 hover:bg-primary/10 transition-colors">Ler artigo</a>
+                </div>
+                <div class="w-full md:w-1/2 h-[30vh] md:h-full relative overflow-hidden img-hover-container border-b md:border-b-0 md:border-l border-outline-variant/30">
+                    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1200" alt="Gráficos" class="absolute inset-0 w-full h-full object-cover filter grayscale" />
+                </div>
+            </section>
+
+            <!-- 3. Arquivo Intro -->
+            <section class="w-[40vw] md:w-[30vw] shrink-0 px-12 md:px-24 flex flex-col justify-center">
+                <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-4">Arquivo.</h2>
+                <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-sm">Nossos últimos ensaios</p>
+                <span class="w-24 h-[1px] bg-outline-variant mt-8"></span>
+            </section>
+
+            <!-- 4. A MÁGICA DO JEKYLL: LOOP DE ARTIGOS -->
+            <section class="flex gap-8 px-6 md:px-12 shrink-0 pr-24">
+                {% for post in site.posts %}
+                <article class="w-[300px] md:w-[400px] h-[60vh] flex flex-col border border-outline-variant/30 bg-surface-container-lowest/80 group">
+                    <div class="h-1/2 overflow-hidden border-b border-outline-variant/30 img-hover-container relative">
+                        <img src="{{ post.image }}" class="w-full h-full object-cover filter grayscale" alt="{{ post.title }}">
+                        <div class="absolute top-4 right-4 bg-background px-3 py-1 font-label-mono text-[10px] uppercase text-primary">{{ post.category }}</div>
+                    </div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="font-label-mono text-on-surface-variant text-xs mb-3">{{ post.date | date: "%d.%m.%Y" }}</div>
+                            <h3 class="font-headline text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors">{{ post.title }}</h3>
+                        </div>
+                        <a href="{{ site.baseurl }}{{ post.url }}" class="font-label-mono text-xs uppercase tracking-widest hover:text-primary transition-colors">Ler -></a>
+                    </div>
+                </article>
+                {% endfor %}
+            </section>
+        </div>
+    </main>
 
     <script>
-        document.addEventListener('mousemove', (e) => {
-            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        document.addEventListener('mousemove', (e) => { document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`); document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`); });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const phrases = ['sobre o dólar', 'sobre o futuro', 'sobre a arte', 'sobre o código', 'sobre.'];
+            let currentPhraseIndex = 0, isDeleting = false, currentText = '', typingSpeed = 100;
+            const logoElement = document.getElementById('typewriter-logo');
+            function type() {
+                if (!logoElement) return;
+                const fullText = phrases[currentPhraseIndex];
+                if (isDeleting) { currentText = fullText.substring(0, currentText.length - 1); typingSpeed = 50; } 
+                else { currentText = fullText.substring(0, currentText.length + 1); typingSpeed = 100; }
+                logoElement.textContent = currentText;
+                let delay = typingSpeed;
+                if (!isDeleting && currentText === fullText) { delay = 2000; isDeleting = true; } 
+                else if (isDeleting && currentText === '') { isDeleting = false; currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length; delay = 500; }
+                setTimeout(type, delay);
+            }
+            if (logoElement) setTimeout(type, 500);
         });
+
+        const container = document.getElementById('horizontal-container');
+        const proxy = document.getElementById('scroll-proxy');
+        const progressBar = document.getElementById('progress-bar');
+        const nav = document.getElementById('main-nav');
+        const floatingLogo = document.getElementById('floating-logo');
         const fullMenu = document.getElementById('full-menu');
         const menuToggle = document.getElementById('menu-toggle');
         const closeMenu = document.getElementById('close-menu');
-        menuToggle.addEventListener('click', () => fullMenu.classList.remove('translate-x-full'));
-        closeMenu.addEventListener('click', () => fullMenu.classList.add('translate-x-full'));
+
+        let currentScroll = 0, targetScroll = 0, isLogoScrolled = false;
+        const ease = 0.08;
+
+        function updateDimensions() { proxy.style.height = `${container.scrollWidth - window.innerWidth + window.innerHeight}px`; }
+        window.addEventListener('scroll', () => { targetScroll = window.scrollY; });
+
+        menuToggle.addEventListener('click', () => { fullMenu.classList.remove('translate-x-full'); });
+        closeMenu.addEventListener('click', () => { fullMenu.classList.add('translate-x-full'); });
+
+        function animateScroll() {
+            currentScroll += (targetScroll - currentScroll) * ease;
+            container.style.transform = `translate3d(${-currentScroll}px, 0, 0)`;
+            const maxScroll = proxy.offsetHeight - window.innerHeight;
+            if (maxScroll > 0) progressBar.style.width = `${(currentScroll / maxScroll) * 100}%`;
+
+            if (currentScroll > 50 && !isLogoScrolled) {
+                isLogoScrolled = true;
+                nav.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                floatingLogo.classList.remove('top-1/2', '-translate-y-1/2', 'text-[64px]', 'sm:text-[96px]', 'md:text-[140px]', 'lg:text-[180px]', 'text-primary', 'lg:left-24');
+                floatingLogo.classList.add('top-[24px]', 'text-xl', 'text-on-background', 'hover:text-primary');
+            } else if (currentScroll <= 50 && isLogoScrolled) {
+                isLogoScrolled = false;
+                nav.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                floatingLogo.classList.add('top-1/2', '-translate-y-1/2', 'text-[64px]', 'sm:text-[96px]', 'md:text-[140px]', 'lg:text-[180px]', 'text-primary', 'lg:left-24');
+                floatingLogo.classList.remove('top-[24px]', 'text-xl', 'text-on-background', 'hover:text-primary');
+            }
+            requestAnimationFrame(animateScroll);
+        }
+
+        window.addEventListener('resize', updateDimensions);
+        setTimeout(() => { updateDimensions(); animateScroll(); }, 100);
+        window.addEventListener('load', updateDimensions);
     </script>
 </body>
 </html>
