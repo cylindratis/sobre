@@ -1,1 +1,5 @@
-
+name: sobre.
+description: nossos aforismos
+baseurl: "" # Deixe vazio se for no root (dominio.com) ou coloque "/nome-do-repo" se for github.io/nome-do-repo
+theme: minima
+permalink: /:categories/:year/:month/:day/:title/
