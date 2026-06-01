@@ -1,5 +1,5 @@
 name: sobre.
-description: aforismos
-baseurl: "" # Deixe vazio. Se o layout quebrar no GitHub, mude para "/nome-do-seu-repositorio"
+description: Editorial Technical Blog - Explorando tecnologia, cultura e economia
+baseurl: "/sobre" # Isso diz ao Jekyll que seu site vive nessa subpasta
 theme: minima
 permalink: /:categories/:year/:month/:day/:title/
