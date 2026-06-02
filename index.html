@@ -2,7 +2,7 @@
 layout: null
 ---
 <!DOCTYPE html>
-<html class="dark" lang="pt-BR">
+<html lang="pt-BR" class="dark snap-y snap-proximity scroll-smooth">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -15,28 +15,70 @@ layout: null
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
     <style>
-        /* Importação da Junicode Bold Condensed direto do Repositório via CDN */
+        /* Importação da Junicode Local (Variable Fonts) */
         @font-face {
             font-family: 'Junicode Condensed';
-            src: url('https://cdn.jsdelivr.net/gh/psb1558/Junicode-font@master/fonts/webfonts/Junicode-CondBold.woff2') format('woff2');
-            font-weight: 700;
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Roman.woff2') format('woff2');
+            font-weight: 100 900;
             font-style: normal;
             font-display: swap;
         }
+        @font-face {
+            font-family: 'Junicode Condensed';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Italic.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: italic;
+            font-display: swap;
+        }
 
-        :root { --mouse-x: -1000px; --mouse-y: -1000px; }
-        body { scroll-behavior: smooth; overflow-x: hidden; }
+        /* VARIÁVEIS DO MODO CLARO / ESCURO */
+        :root { 
+            --mouse-x: -1000px; 
+            --mouse-y: -1000px; 
+
+            /* Modo Claro (Light) */
+            --bg: #f8f9fa;
+            --surface: #ffffff;
+            --surface-lowest: #f1f3f4;
+            --surface-high: #e8eaed;
+            --primary: #1a1a1a;
+            --secondary: #d94a1e;
+            --on-bg: #111111;
+            --on-surface-var: #5f6368;
+            --outline-var: #dadce0;
+            --dot-base: #e0e0e0;
+            --dot-highlight: #000000;
+        }
+
+        .dark {
+            /* Modo Escuro (Dark) */
+            --bg: #131316;
+            --surface: #131316;
+            --surface-lowest: #0e0e11;
+            --surface-high: #2a2a2d;
+            --primary: #c8c6c8;
+            --secondary: #ffb59d;
+            --on-bg: #e4e1e6;
+            --on-surface-var: #c7c6ca;
+            --outline-var: #46464a;
+            --dot-base: #4c4546;
+            --dot-highlight: #e2e2e2;
+        }
+
+        body { overflow-x: hidden; }
         
-        /* Fundo Interativo */
+        /* Fundo Interativo Automático (Adapta a cor ao tema) */
         .dot-bg-base {
-            background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px);
+            background-image: radial-gradient(var(--dot-base) 1.5px, transparent 1.5px);
             background-size: 24px 24px; opacity: 0.4;
+            transition: background-image 0.5s ease;
         }
         .dot-bg-highlight {
-            background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px);
+            background-image: radial-gradient(var(--dot-highlight) 1.5px, transparent 1.5px);
             background-size: 24px 24px;
             -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
             mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            transition: background-image 0.5s ease;
         }
 
         /* Cursor da Máquina de Escrever */
@@ -49,14 +91,14 @@ layout: null
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* --- EFEITO DE MORPHING DO LOGO (HERO -> HEADER) --- */
+        /* --- EFEITO DE MORPHING DO LOGO (HERO -> HEADER -> FOOTER) --- */
         #typewriter-wrapper {
             position: fixed;
             left: 1.5rem; /* px-6 */
             top: 50%;
             transform: translateY(-50%);
             font-size: 64px;
-            line-height: 1; /* Espaçamento simples garantido */
+            line-height: 1;
             z-index: 60;
             transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             pointer-events: none;
@@ -76,11 +118,24 @@ layout: null
             pointer-events: auto;
         }
         @media (min-width: 768px) {
-            #typewriter-wrapper.scrolled { 
-                left: 3rem; /* md:px-12 */
-                top: 1.5rem; /* py-6 */
-            }
+            #typewriter-wrapper.scrolled { left: 3rem; top: 1.5rem; }
         }
+
+        /* Estado "Fim da Página" (Encaixa no Rodapé) */
+        #typewriter-wrapper.footer-reached {
+            top: auto;
+            bottom: 3rem; /* Centraliza nos 6rem (h-24) do rodapé */
+            transform: translateY(50%);
+            font-size: 1.5rem; /* text-2xl */
+            left: 1.5rem; /* px-6 */
+            pointer-events: auto;
+        }
+        @media (min-width: 768px) {
+            #typewriter-wrapper.footer-reached { left: 3rem; }
+        }
+
+        /* Tema Transições Globais */
+        * { transition: background-color 0.3s ease, border-color 0.3s ease; }
     </style>
 
     <!-- Tailwind CSS -->
@@ -91,10 +146,15 @@ layout: null
             theme: {
                 extend: {
                     colors: {
-                        "surface-container-high": "#2a2a2d", surface: "#131316", background: "#131316",
-                        "surface-container-lowest": "#0e0e11", "surface-container": "#1f1f22", 
-                        primary: "#c8c6c8", secondary: "#ffb59d", "tertiary-fixed": "#e2e2e3",
-                        "on-background": "#e4e1e6", "on-surface-variant": "#c7c6ca", "outline-variant": "#46464a"
+                        "surface-container-high": "var(--surface-high)", 
+                        surface: "var(--surface)", 
+                        background: "var(--bg)",
+                        "surface-container-lowest": "var(--surface-lowest)", 
+                        primary: "var(--primary)", 
+                        secondary: "var(--secondary)", 
+                        "on-background": "var(--on-bg)", 
+                        "on-surface-variant": "var(--on-surface-var)", 
+                        "outline-variant": "var(--outline-var)"
                     }, 
                     fontFamily: {
                         "body-md": ["Ibm Plex Serif", "serif"], 
@@ -102,7 +162,7 @@ layout: null
                         display: ["Geist", "sans-serif"], 
                         "label-mono": ["Geist Mono", "monospace"], 
                         headline: ["Geist", "sans-serif"],
-                        junicode: ["Junicode Condensed", "serif"] /* Fonte nova adicionada */
+                        junicode: ["Junicode Condensed", "serif"]
                     }
                 }
             }
@@ -111,37 +171,44 @@ layout: null
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-secondary selection:text-background relative">
 
-    <!-- Interactive Background -->
+    <!-- Fundo Interativo -->
     <div class="fixed inset-0 pointer-events-none z-0">
         <div class="dot-bg-base absolute inset-0"></div>
         <div class="dot-bg-highlight absolute inset-0"></div>
     </div>
 
-    <!-- O Logo que viaja pela tela (Typewriter) -->
+    <!-- Logo viaja pela tela (Typewriter) -->
     <div id="typewriter-wrapper" class="font-display font-bold lowercase text-on-background">
         <span id="typewriter-logo" class="typewriter-cursor text-left">so</span>
     </div>
 
-    <!-- HEADER GLOBAL FIXO (Aparece na rolagem e "recebe" o logo) -->
+    <!-- HEADER GLOBAL FIXO -->
     <header id="main-header" class="fixed top-0 left-0 w-full px-6 md:px-12 py-6 flex justify-end items-center z-50 transition-all duration-700 opacity-0 -translate-y-full bg-background/80 backdrop-blur-md border-b border-outline-variant/30 pointer-events-none">
-        <button id="menu-open" class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group pointer-events-auto">
-            <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
-            <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
-        </button>
+        
+        <div class="flex items-center gap-6 md:gap-10 pointer-events-auto">
+            <!-- Botão de Tema -->
+            <button id="theme-toggle" class="flex items-center text-on-surface-variant hover:text-primary transition-colors group">
+                <span class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform" id="theme-icon">light_mode</span>
+            </button>
+
+            <!-- Botão Menu -->
+            <button id="menu-open" class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group">
+                <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
+                <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
+            </button>
+        </div>
+
     </header>
 
-    <!-- PÁGINA 1: Hero Section (Tela Inicial Limpa) -->
-    <section class="relative z-10 w-full h-screen flex flex-col justify-end px-6 md:px-12 pb-12">
-        <div class="flex flex-col items-start gap-4 text-outline-variant animate-bounce">
-            <span class="font-label-mono text-xs uppercase tracking-widest">Explorar</span>
-            <span class="material-symbols-outlined">arrow_downward</span>
-        </div>
+    <!-- PÁGINA 1: Hero Section (Rolada Direta ativada) -->
+    <section class="snap-start relative z-10 w-full h-screen flex flex-col justify-end px-6 md:px-12 pb-12">
+        <!-- Explorar removido a pedido -->
     </section>
 
-    <!-- PÁGINA 2: O Super Card com o Carrossel (Últimos 3) -->
-    <section class="relative z-10 w-full min-h-screen p-4 md:p-8 flex items-center justify-center">
+    <!-- PÁGINA 2: O Super Card (Rolada Direta ativada) -->
+    <section id="super-card" class="snap-start relative z-10 w-full min-h-screen p-4 md:p-8 flex items-center justify-center">
         <!-- O Super Card emoldurado -->
-        <div class="w-full h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)] bg-surface-container-lowest border border-outline-variant/40 flex flex-col relative overflow-hidden shadow-2xl pt-20 md:pt-24">
+        <div class="w-full h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)] bg-surface-container-lowest border border-outline-variant/40 flex flex-col relative overflow-hidden shadow-2xl pt-20 md:pt-24 transition-colors">
             
             <div class="flex-1 flex flex-col justify-center relative">
                 
@@ -153,7 +220,7 @@ layout: null
                 <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar w-full h-[65vh] md:h-[60vh] items-center px-6 md:px-10 gap-6 md:gap-12 pb-8 mt-4">
                     
                     {% for post in site.posts limit:3 %}
-                    <div class="snap-center shrink-0 w-[85vw] md:w-[60vw] h-full flex flex-col md:flex-row border border-outline-variant/30 bg-surface group relative overflow-hidden">
+                    <div class="snap-center shrink-0 w-[85vw] md:w-[60vw] h-full flex flex-col md:flex-row border border-outline-variant/30 bg-surface group relative overflow-hidden transition-colors">
                         
                         <!-- Info do Post -->
                         <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-between z-10 bg-surface/90 backdrop-blur-sm md:bg-transparent">
@@ -162,14 +229,14 @@ layout: null
                                     {{ post.date | date: "%d.%m.%Y" }}
                                 </div>
                                 <!-- Título Junicode Bold Condensed -->
-                                <h2 class="font-junicode text-4xl md:text-5xl lg:text-7xl leading-none font-bold mb-6 group-hover:text-primary transition-colors tracking-tight">
+                                <h2 class="font-junicode text-4xl md:text-5xl lg:text-7xl leading-none font-bold mb-6 group-hover:text-primary transition-colors tracking-tight text-on-background">
                                     {{ post.title }}
                                 </h2>
                                 <p class="text-on-surface-variant text-sm md:text-base line-clamp-3">
                                     {{ post.excerpt | strip_html | truncatewords: 25 }}
                                 </p>
                             </div>
-                            <a href="{{ site.baseurl }}{{ post.url }}" class="mt-8 font-label-mono text-xs uppercase tracking-widest border border-primary/30 w-fit px-6 py-3 hover:bg-primary/10 text-primary transition-colors">
+                            <a href="{{ site.baseurl }}{{ post.url }}" class="mt-8 font-label-mono text-xs uppercase tracking-widest border border-outline-variant/50 w-fit px-6 py-3 hover:border-primary hover:text-primary transition-all text-on-background">
                                 Ler Ensaio ->
                             </a>
                         </div>
@@ -192,10 +259,10 @@ layout: null
 
                 <!-- Controles do Carrossel -->
                 <div class="absolute bottom-6 right-6 md:right-10 flex gap-4">
-                    <button id="btn-prev" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-variant transition-colors text-on-background z-10 bg-surface">
+                    <button id="btn-prev" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-background z-10 bg-surface">
                         <span class="material-symbols-outlined">arrow_left</span>
                     </button>
-                    <button id="btn-next" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-variant transition-colors text-on-background z-10 bg-surface">
+                    <button id="btn-next" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-background z-10 bg-surface">
                         <span class="material-symbols-outlined">arrow_right</span>
                     </button>
                 </div>
@@ -204,11 +271,11 @@ layout: null
         </div>
     </section>
 
-    <!-- PÁGINA 3: Acervo (Quadros) -->
+    <!-- PÁGINA 3: Acervo (Sem snap para navegação livre) -->
     <section class="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 min-h-screen">
         <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-outline-variant/30 pb-6">
             <div>
-                <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2">Acervo.</h2>
+                <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2 text-on-background">Acervo.</h2>
                 <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-xs md:text-sm">O arquivo completo de publicações</p>
             </div>
         </div>
@@ -217,8 +284,7 @@ layout: null
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             
             {% for post in site.posts offset:3 %}
-            <!-- Quadro -->
-            <a href="{{ site.baseurl }}{{ post.url }}" class="group flex flex-col h-[550px] border border-outline-variant/30 bg-surface-container-lowest hover:-translate-y-2 transition-transform duration-500">
+            <a href="{{ site.baseurl }}{{ post.url }}" class="group flex flex-col h-[550px] border border-outline-variant/30 bg-surface-container-lowest hover:-translate-y-2 transition-all duration-500">
                 <div class="h-1/2 overflow-hidden border-b border-outline-variant/30 relative">
                     <img src="{% if post.image %}{{ post.image }}{% else %}https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=600{% endif %}" alt="{{ post.title }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700">
                     {% if post.category %}
@@ -228,8 +294,7 @@ layout: null
                 <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
                     <div>
                         <div class="font-label-mono text-outline-variant text-[10px] mb-6">{{ post.date | date: "%d.%m.%Y" }}</div>
-                        <!-- Título Junicode Bold Condensed -->
-                        <h3 class="font-junicode text-3xl leading-none font-bold mb-3 group-hover:text-primary transition-colors line-clamp-3 tracking-tight">{{ post.title }}</h3>
+                        <h3 class="font-junicode text-3xl leading-none font-bold mb-3 group-hover:text-primary transition-colors line-clamp-3 tracking-tight text-on-background">{{ post.title }}</h3>
                     </div>
                     <div class="font-label-mono text-xs uppercase tracking-widest text-on-surface-variant group-hover:text-primary transition-colors">
                         Ler Ensaio ->
@@ -242,8 +307,8 @@ layout: null
     </section>
 
     <!-- Rodapé -->
-    <footer class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 py-12 px-6 text-center">
-        <div class="font-headline font-bold text-2xl mb-4 text-on-background">sobre<span class="text-primary">.</span></div>
+    <footer id="main-footer" class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 h-24 px-6 md:px-12 flex items-center justify-between transition-colors">
+        <div class="w-24"></div> <!-- Placeholder invisível para o logo typewriter que pousará aqui -->
         <p class="font-label-mono text-xs text-on-surface-variant">© 2026 Editorial. Todos os direitos reservados.</p>
     </footer>
 
@@ -276,13 +341,37 @@ layout: null
 
     <!-- Scripts -->
     <script>
+        // --- TEMA CLARO / ESCURO (TOGGLE) ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        // Inicializa pegando a preferência do usuário salva (ou do sistema)
+        if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            htmlElement.classList.remove('dark');
+            themeIcon.textContent = 'dark_mode'; // Lua, sugerindo mudar pro escuro
+        } else {
+            themeIcon.textContent = 'light_mode'; // Sol, sugerindo mudar pro claro
+        }
+
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = 'light_mode';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = 'dark_mode';
+            }
+        });
+
         // Fundo interativo
         document.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
             document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        // Typewriter Effect Alinhado à Esquerda
+        // Typewriter Effect
         document.addEventListener('DOMContentLoaded', () => {
             const phrases = ['sobre o dólar', 'sobre o futuro', 'sobre a arte', 'sobre o código', 'sobre.'];
             let currentPhraseIndex = 0, isDeleting = false, currentText = '';
@@ -314,19 +403,33 @@ layout: null
             if (logoElement) setTimeout(type, 500);
         });
 
-        // --- LÓGICA DE TRANSIÇÃO DO LOGO E HEADER ---
+        // --- LÓGICA DE TRANSIÇÃO DO LOGO (HERO -> HEADER -> FOOTER) ---
         const header = document.getElementById('main-header');
         const typewriterWrapper = document.getElementById('typewriter-wrapper');
         
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                // Ao rolar, encolhe o logo e revela a barra de menu
+            const scrollY = window.scrollY;
+            const documentHeight = document.body.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            // Verifica se está no final absoluto da página (margem de erro de 10px)
+            const isNearBottom = scrollY + windowHeight >= documentHeight - 10;
+
+            if (isNearBottom) {
+                // Chegou no Rodapé: logo desce e se encaixa lá
+                typewriterWrapper.classList.remove('scrolled');
+                typewriterWrapper.classList.add('footer-reached');
+                header.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                header.classList.remove('opacity-100', 'translate-y-0');
+            } else if (scrollY > 100) {
+                // Durante a rolagem (Acervo e Super Card): logo fica no Header
                 typewriterWrapper.classList.add('scrolled');
+                typewriterWrapper.classList.remove('footer-reached');
                 header.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
                 header.classList.add('opacity-100', 'translate-y-0');
             } else {
-                // Retorna ao estado inicial gigante
-                typewriterWrapper.classList.remove('scrolled');
+                // Hero Page: Logo fica gigante e livre
+                typewriterWrapper.classList.remove('scrolled', 'footer-reached');
                 header.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
                 header.classList.remove('opacity-100', 'translate-y-0');
             }
@@ -341,39 +444,30 @@ layout: null
         function scrollNext() {
             if(!carousel) return;
             const scrollAmount = carousel.clientWidth * 0.8;
-            // Verifica se chegou no final do scroll
             if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
-                carousel.scrollTo({ left: 0, behavior: 'smooth' }); // Volta pro início
+                carousel.scrollTo({ left: 0, behavior: 'smooth' }); 
             } else {
                 carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
             }
         }
 
         function startCarousel() {
-            // Alterna a cada 4.5 segundos
             carouselTimer = setInterval(scrollNext, 4500);
         }
 
         function resetCarouselTimer() {
             clearInterval(carouselTimer);
-            startCarousel(); // Reinicia o timer após interação manual
+            startCarousel();
         }
 
         if(carousel && btnNext && btnPrev) {
-            btnNext.addEventListener('click', () => {
-                scrollNext();
-                resetCarouselTimer();
-            });
+            btnNext.addEventListener('click', () => { scrollNext(); resetCarouselTimer(); });
             btnPrev.addEventListener('click', () => {
                 const scrollAmount = carousel.clientWidth * 0.8;
                 carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
                 resetCarouselTimer();
             });
-            
-            // Pausa ou reinicia o timer ao tocar (no celular)
             carousel.addEventListener('touchstart', resetCarouselTimer, {passive: true});
-            
-            // Inicia o temporizador automático
             startCarousel();
         }
 
