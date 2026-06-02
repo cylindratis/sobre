@@ -1,208 +1,287 @@
+---
+layout: null
+---
 <!DOCTYPE html>
-<html class="dark" lang="pt-BR">
+<html lang="pt-BR" class="dark scroll-smooth">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>O impacto do dólar na nova economia digital - sobre.</title>
-    
+    <title>{% if page.title %}{{ page.title }}{% else %}Artigo{% endif %} - sobre.</title>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Ibm+Plex+Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
-    <script id="tailwind-config">
+
+    <style>
+        /* Importação da Junicode Local (Variable Fonts) */
+        @font-face {
+            font-family: 'Junicode Condensed';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Roman.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+            font-stretch: condensed;
+        }
+        @font-face {
+            font-family: 'Junicode Condensed';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Italic.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: italic;
+            font-display: swap;
+            font-stretch: condensed;
+        }
+
+        /* VARIÁVEIS DO MODO CLARO / ESCURO */
+        :root { 
+            --bg: #f8f9fa; --surface: #ffffff; --surface-lowest: #f1f3f4; --surface-high: #e8eaed;
+            --primary: #1a1a1a; --secondary: #d94a1e; --on-bg: #111111; --on-surface-var: #5f6368;
+            --outline-var: #dadce0;
+        }
+        .dark {
+            --bg: #131316; --surface: #131316; --surface-lowest: #0e0e11; --surface-high: #2a2a2d;
+            --primary: #c8c6c8; --secondary: #ffb59d; --on-bg: #e4e1e6; --on-surface-var: #c7c6ca;
+            --outline-var: #46464a;
+        }
+        
+        body { overflow-x: hidden; transition: background-color 0.3s ease, color 0.3s ease; }
+        * { transition: border-color 0.3s ease; }
+
+        /* Estilização Base do Markdown */
+        .article-content p { margin-bottom: 2rem; color: var(--on-surface-var); }
+        
+        /* Drop Cap (Letra Capitular) para o primeiro parágrafo */
+        .article-content > p:first-of-type::first-letter {
+            font-size: 4.5rem;
+            line-height: 0.8;
+            float: left;
+            margin-right: 0.5rem;
+            margin-bottom: -0.2rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Subtítulos fixos em Junicode */
+        .article-content h2, .article-content h3, .article-content h4 {
+            font-family: 'Junicode Condensed', serif;
+            font-weight: 700;
+            color: var(--on-bg);
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .article-content h2 { font-size: 2.5rem; }
+        @media (min-width: 768px) { .article-content h2 { font-size: 3.5rem; } }
+        .article-content h3 { font-size: 2rem; }
+        
+        /* Citações em destaque */
+        .article-content blockquote {
+            border-left: 4px solid var(--primary);
+            padding-left: 1.5rem;
+            margin-left: 0;
+            margin-right: 0;
+            font-style: italic;
+            color: var(--on-bg);
+            background: var(--surface-lowest);
+            padding: 2rem 1.5rem;
+            border: 1px solid var(--outline-var);
+            border-left: 4px solid var(--primary);
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+        
+        /* Listas e Links */
+        .article-content ul { list-style-type: square; padding-left: 1.5rem; margin-bottom: 2rem; color: var(--on-surface-var); }
+        .article-content li { margin-bottom: 0.5rem; }
+        .article-content a { color: var(--on-bg); text-decoration: underline; text-decoration-color: var(--primary); text-underline-offset: 4px; transition: all 0.3s ease; }
+        .article-content a:hover { background-color: var(--primary); color: var(--bg); text-decoration-color: transparent; }
+
+        /* Animações e Transições */
+        .fade-in-up { opacity: 0; animation: fadeInUp 0.8s ease-out forwards; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .font-transition { transition: font-family 0.3s ease; }
+        .margin-transition { transition: max-width 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+    </style>
+
+    <!-- Tailwind Config -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
         tailwind.config = {
-            darkMode: "class", 
+            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "surface-container-high": "#2a2a2d", "on-primary-container": "#828183", "inverse-on-surface": "#303033", surface: "#131316", "primary-fixed-dim": "#c8c6c8", "inverse-surface": "#e4e1e6", "surface-variant": "#353438", background: "#131316", "inverse-primary": "#5f5e60", "on-secondary-fixed-variant": "#832600", "on-secondary": "#5d1800", "surface-container-lowest": "#0e0e11", "tertiary-fixed": "#e2e2e3", "surface-container": "#1f1f22", "surface-container-highest": "#353438", "on-tertiary-fixed-variant": "#454748", "tertiary-container": "#17191a", "on-secondary-fixed": "#390c00", "secondary-container": "#cd4102", "on-tertiary-container": "#808283", "on-secondary-container": "#fff7f4", tertiary: "#c6c6c7", "tertiary-fixed-dim": "#c6c6c7", "on-primary-fixed-variant": "#474649", "primary-container": "#18181a", "on-surface": "#e4e1e6", "on-primary": "#303032", "surface-tint": "#c8c6c8", "on-error-container": "#ffdad6", secondary: "#ffb59d", "surface-container-low": "#1b1b1e", "on-tertiary-fixed": "#1a1c1d", "on-tertiary": "#2f3132", "error-container": "#93000a", "on-error": "#690005", outline: "#919095", "on-background": "#e4e1e6", "outline-variant": "#46464a", "primary-fixed": "#e4e2e4", "on-primary-fixed": "#1b1b1d", "surface-dim": "#131316", error: "#ffb4ab", "secondary-fixed": "#ffdbd0", "on-surface-variant": "#c7c6ca", primary: "#c8c6c8", "surface-bright": "#39393c", "secondary-fixed-dim": "#ffb59d"
-                    }, 
+                        surface: "var(--surface)", background: "var(--bg)", "surface-container-lowest": "var(--surface-lowest)", 
+                        "surface-container-high": "var(--surface-high)", primary: "var(--primary)", secondary: "var(--secondary)", 
+                        "on-background": "var(--on-bg)", "on-surface-variant": "var(--on-surface-var)", "outline-variant": "var(--outline-var)"
+                    },
                     fontFamily: {
-                        "body-md": ["Ibm Plex Serif", "serif"], 
-                        "headline-lg": ["Geist", "sans-serif"], 
-                        display: ["Geist", "sans-serif"], 
-                        "label-mono": ["Geist Mono", "monospace"], 
-                        headline: ["Geist", "sans-serif"]
+                        "body-md": ["Ibm Plex Serif", "serif"], "label-mono": ["Geist Mono", "monospace"], 
+                        display: ["Geist", "sans-serif"], headline: ["Geist", "sans-serif"], junicode: ["Junicode Condensed", "serif"]
                     }
                 }
             }
         };
     </script>
-    
-    <style>
-      :root { --mouse-x: -1000px; --mouse-y: -1000px; }
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: #131316; }
-      ::-webkit-scrollbar-thumb { background: #353438; }
-
-      .dot-bg-base {
-        background-image: radial-gradient(#cfc4c5 1.5px, transparent 1.5px);
-        background-size: 24px 24px;
-        opacity: 0.4;
-      }
-      .dot-bg-highlight {
-        background-image: radial-gradient(#000000 1.5px, transparent 1.5px);
-        background-size: 24px 24px;
-        -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
-        mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
-      }
-      .dark .dot-bg-base { background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px); }
-      .dark .dot-bg-highlight { background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px); }
-      
-      /* Drop Cap for first paragraph */
-      .article-content > p:first-of-type::first-letter {
-          font-family: 'Geist', sans-serif;
-          font-size: 4rem;
-          line-height: 0.8;
-          float: left;
-          margin-right: 0.5rem;
-          margin-bottom: -0.2rem;
-          color: theme('colors.primary');
-          font-weight: bold;
-      }
-    </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-primary selection:text-on-primary">
-    
-    <!-- Reading Progress Bar -->
-    <div class="fixed top-0 left-0 w-full h-1 bg-surface-container-highest z-50">
+<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-primary selection:text-background">
+
+    <!-- Barra de Progresso de Leitura -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-surface-container-high z-[150]">
         <div id="reading-progress" class="h-full bg-primary w-0 origin-left transition-all duration-150 ease-out"></div>
     </div>
 
-    <!-- Interactive Dotted Background -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="dot-bg-base absolute inset-0"></div>
-        <div class="dot-bg-highlight absolute inset-0"></div>
-    </div>
-
-    <nav class="fixed top-0 left-0 w-full h-[76px] px-6 md:px-12 z-40 flex justify-between items-center backdrop-blur-md border-b border-outline-variant/30 bg-background/80 mt-1">
-        <a href="editorial_horizontal.html" class="font-headline font-bold text-2xl text-on-background hover:text-primary transition-colors">
+    <!-- HEADER GLOBAL FIXO -->
+    <header class="fixed top-0 left-0 w-full px-6 md:px-12 py-6 flex justify-between items-center z-50 bg-background/90 backdrop-blur-md border-b border-outline-variant/30 mt-1">
+        <a href="{{ site.baseurl }}/" class="font-headline font-bold text-2xl text-on-background hover:text-primary transition-colors">
             sobre<span class="text-primary">.</span>
         </a>
-        <button id="menu-toggle" class="group flex items-center gap-3 text-on-background hover:text-primary transition-colors">
-            <span class="font-label-mono text-sm uppercase tracking-widest hidden md:block">Menu</span>
-            <span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300">menu</span>
-        </button>
-    </nav>
-
-    <div id="full-menu" class="fixed inset-0 bg-surface-container-lowest/95 backdrop-blur-xl z-[100] transition-transform duration-500 translate-x-full flex flex-col md:flex-row">
-        <button id="close-menu" class="absolute top-6 right-6 md:right-12 text-on-background hover:text-primary transition-colors group p-2 z-50">
-             <span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">close</span>
-        </button>
-        
-        <!-- Left Side: Logo & Info -->
-        <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/30">
-            <div class="flex flex-col items-start max-w-lg">
-                <a href="editorial_horizontal.html" class="font-headline font-bold text-[64px] md:text-[120px] leading-none text-primary hover:opacity-80 transition-opacity">sobre.</a>
-                <p class="font-label-mono text-on-surface-variant mt-6 uppercase tracking-widest text-xs md:text-sm">Editorial Technical Blog</p>
-                
-                <div class="text-xs text-on-surface-variant font-label-mono flex flex-col gap-4 mt-12 md:mt-24">
-                    <p>© 2026 Editorial Technical Blog.</p>
-                    <div class="flex gap-6">
-                        <a href="#" class="hover:text-primary transition-colors">Termos</a>
-                        <a href="#" class="hover:text-primary transition-colors">Privacidade</a>
-                    </div>
-                </div>
-            </div>
+        <div class="flex items-center gap-6 md:gap-10">
+            <button id="theme-toggle" class="flex items-center text-on-surface-variant hover:text-primary transition-colors group">
+                <span class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform" id="theme-icon">light_mode</span>
+            </button>
+            <button id="menu-open" class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group">
+                <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
+                <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
+            </button>
         </div>
+    </header>
 
-        <!-- Right Side: Links -->
-        <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center">
-            <ul class="flex flex-col gap-6 md:gap-12 font-display text-4xl md:text-7xl font-bold tracking-tight">
-                <li><a href="editorial_horizontal.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Início</a></li>
-                <li><a href="autores.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
-                <li><a href="manifesto.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
-            </ul>
+    <!-- OVERLAY MENU -->
+    <div id="menu-overlay" class="fixed inset-0 bg-background/95 backdrop-blur-xl z-[200] translate-x-full transition-transform duration-500 flex flex-col">
+        <div class="w-full p-6 md:px-12 md:py-8 flex justify-end border-b border-outline-variant/20">
+            <button id="menu-close" class="text-on-background hover:text-primary transition-colors group flex items-center gap-2">
+                <span class="font-label-mono text-xs uppercase tracking-widest">Fechar</span>
+                <span class="material-symbols-outlined text-4xl group-hover:rotate-90 transition-transform duration-300">close</span>
+            </button>
+        </div>
+        <div class="flex-1 flex flex-col md:flex-row w-full max-w-[1400px] mx-auto p-6 md:p-12 gap-12">
+            <div class="w-full md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/20 pb-12 md:pb-0">
+                <div class="font-headline font-bold text-6xl md:text-8xl tracking-tight mb-6 text-on-background">sobre<span class="text-primary">.</span></div>
+                <p class="font-label-mono text-on-surface-variant text-sm max-w-sm leading-relaxed uppercase tracking-widest">Um arquivo digital dedicado à interseção entre tecnologia, arte e economia.</p>
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col justify-center">
+                <nav>
+                    <ul class="flex flex-col gap-6 md:gap-8 font-headline text-3xl md:text-5xl font-bold">
+                        <li><a href="{{ site.baseurl }}/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Início</a></li>
+                        <li><a href="{{ site.baseurl }}/autores.html" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Autores</a></li>
+                        <li><a href="{{ site.baseurl }}/manifesto.html" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Manifesto</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 
+    <!-- CONTEÚDO PRINCIPAL DO POST -->
     <main class="relative z-10 pt-32 pb-24 min-h-screen">
         
-        <!-- Article Header -->
-        <header class="px-6 md:px-12 max-w-[800px] mx-auto text-center mb-16">
-            <div class="inline-flex items-center gap-2 mb-8 font-label-mono text-primary uppercase tracking-widest text-xs">
-                <span class="w-8 h-[1px] bg-primary"></span> Economia
-            </div>
+        <!-- Coluna de Leitura Dinâmica (Ajustável pelas margens) -->
+        <div id="reading-column" class="px-6 md:px-12 mx-auto margin-transition w-full max-w-[800px]">
             
-            <h1 class="font-headline-lg text-[40px] md:text-[64px] leading-[1.1] font-bold mb-8 tracking-tight">O impacto do dólar na nova economia digital.</h1>
-            <p class="text-xl md:text-2xl text-on-surface-variant font-body-md mb-12 leading-relaxed">Uma análise profunda sobre como as flutuações cambiais estão redefinindo o mercado de tecnologia e encarecendo infraestruturas.</p>
-            
-            <div class="flex items-center justify-center gap-4 text-left">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150" alt="Elena Silva" class="w-12 h-12 object-cover border border-outline-variant/30">
-                <div class="font-label-mono text-xs">
-                    <p class="text-on-background uppercase tracking-widest font-bold">Elena Silva</p>
-                    <p class="text-on-surface-variant mt-1">24.05.2026 <span class="mx-2">•</span> 8 min de leitura</p>
+            <header class="text-left mb-16 fade-in-up">
+                <a href="{{ site.baseurl }}/" class="inline-flex items-center gap-2 font-label-mono text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors mb-12 group">
+                    <span class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_left</span>
+                    Voltar ao Acervo
+                </a>
+
+                {% if page.category %}
+                <div class="flex items-center gap-2 mb-8 font-label-mono text-primary uppercase tracking-widest text-xs">
+                    <span class="w-8 h-[1px] bg-primary"></span> {{ page.category }}
                 </div>
-            </div>
-        </header>
+                {% endif %}
+                
+                <!-- Título Maior e Junicode -->
+                <h1 class="font-junicode text-[56px] md:text-[80px] lg:text-[100px] leading-[0.9] font-bold mb-8 tracking-tight text-on-background">
+                    {{ page.title }}
+                </h1>
+                
+                {% if page.excerpt %}
+                <p class="text-xl md:text-2xl text-on-surface-variant font-junicode mb-12 leading-relaxed">
+                    {{ page.excerpt | strip_html | truncatewords: 30 }}
+                </p>
+                {% endif %}
+                
+                <!-- Autor e Painel de Controlos -->
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 border-y border-outline-variant/30 py-6">
+                    
+                    <div class="flex items-center gap-4 text-left">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant">account_circle</span>
+                        <div class="font-label-mono text-xs">
+                            <p class="text-on-background uppercase tracking-widest font-bold">{{ page.author }}</p>
+                            <p class="text-on-surface-variant mt-1">{{ page.date | date: "%d.%m.%Y" }} <span class="mx-2">•</span> Ensaio</p>
+                        </div>
+                    </div>
 
-        <!-- Hero Image -->
-        <figure class="w-full max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-            <div class="w-full h-[40vh] md:h-[70vh] border border-outline-variant/30 overflow-hidden relative">
-                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1600" alt="Gráficos do mercado em tela digital" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
-            </div>
-            <figcaption class="font-label-mono text-xs text-on-surface-variant mt-4 uppercase tracking-widest text-right">Créditos: Unsplash / Mercado Global</figcaption>
-        </figure>
+                    <!-- Controlos Editoriais (Tipografia e Margem) -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-surface-container-lowest px-4 py-3 border border-outline-variant/30">
+                        
+                        <!-- Controlo de Fonte -->
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-label-mono">Fonte:</span>
+                            <div class="flex gap-1">
+                                <button data-font="sans" class="font-btn w-8 h-8 flex items-center justify-center border hover:bg-primary/10 hover:text-primary hover:border-primary transition-colors font-display text-sm font-bold" title="Sans-Serif (Geist)">Aa</button>
+                                <button data-font="serif" class="font-btn w-8 h-8 flex items-center justify-center border hover:bg-primary/10 hover:text-primary hover:border-primary transition-colors font-junicode text-sm font-bold" title="Serif (Junicode)">Aa</button>
+                                <button data-font="mono" class="font-btn w-8 h-8 flex items-center justify-center border hover:bg-primary/10 hover:text-primary hover:border-primary transition-colors font-label-mono text-sm font-bold" title="Monospace (Geist Mono)">Aa</button>
+                            </div>
+                        </div>
 
-        <article class="article-content px-6 md:px-12 max-w-[700px] mx-auto text-lg md:text-xl text-on-surface leading-loose space-y-8">
-            <p>
-                Nas últimas duas décadas, o ecossistema global de tecnologia se acostumou com uma premissa perigosa: a de que infraestrutura de nuvem, APIs e poder computacional seriam sempre uma commodity barata e universalmente acessível. Operávamos sob o pressuposto de uma gravidade econômica estável, onde construir produtos digitais a partir de São Paulo, Berlim ou Bangalore custava essencialmente o mesmo, ignorando as nuances do câmbio.
-            </p>
-            
-            <p>
-                Mas a realidade bateu à porta. A recente disparada do dólar frente às moedas de mercados emergentes não é apenas um evento macroeconômico isolado; é um choque estrutural que está reescrevendo as regras do desenvolvimento de software e da viabilidade das startups.
-            </p>
+                        <div class="w-px h-6 bg-outline-variant/50 hidden sm:block"></div>
 
-            <h2 class="font-headline-lg text-3xl md:text-4xl font-bold mt-16 mb-6 text-on-background tracking-tight">O Fim da Nuvem Infinita</h2>
+                        <!-- Controlo de Margem/Largura -->
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-label-mono">Margem:</span>
+                            <div class="flex gap-1">
+                                <button data-margin="narrow" class="margin-btn w-8 h-8 flex items-center justify-center border hover:bg-primary/10 hover:text-primary hover:border-primary transition-colors text-sm" title="Leitura Estreita">
+                                    <span class="material-symbols-outlined text-[18px]">format_align_center</span>
+                                </button>
+                                <button data-margin="medium" class="margin-btn w-8 h-8 flex items-center justify-center border hover:bg-primary/10 hover:text-primary hover:border-primary transition-colors text-sm" title="Leitura Média">
+                                    <span class="material-symbols-outlined text-[18px]">format_align_justify</span>
+                                </button>
+                                <button data-margin="wide" class="margin-btn w-8 h-8 flex items-center justify-center border hover:bg-primary/10 hover:text-primary hover:border-primary transition-colors text-sm" title="Leitura Ampla">
+                                    <span class="material-symbols-outlined text-[18px]">width_full</span>
+                                </button>
+                            </div>
+                        </div>
 
-            <p>
-                Quando a Amazon Web Services (AWS) e plataformas similares democratizaram a infraestrutura, elas o fizeram em dólares. Hoje, uma empresa brasileira que escala seu banco de dados ou processa modelos de Inteligência Artificial paga um pedágio cambial invisível, porém brutal.
-            </p>
-
-            <blockquote class="border-l-2 border-primary pl-6 my-12 italic text-on-background text-2xl font-body-md leading-relaxed">
-                "Não estamos apenas escrevendo código menos otimizado; estamos subsidiando nossa ineficiência arquitetural com um câmbio desfavorável."
-            </blockquote>
-
-            <p>
-                Isso tem forçado Diretores de Tecnologia (CTOs) a adotarem o que chamo de <strong class="text-primary font-normal">Arquitetura de Sobrevivência</strong>. Onde antes imperava a cultura dos micro-serviços fragmentados (que multiplicam requisições e custos de rede), agora vemos um renascimento surpreendente dos sistemas monolíticos bem estruturados.
-            </p>
-
-            <h3 class="font-headline-lg text-2xl md:text-3xl font-bold mt-12 mb-4 text-on-background">A Resposta Local</h3>
-
-            <p>
-                A pressão cambial está gerando um efeito colateral fascinante: o incentivo para a criação de soluções locais de infraestrutura. Data centers regionais, alternativas de código aberto para APIs pagas (como modelos de IA <i>open-weights</i> hospedados internamente) e uma cultura de engenharia hiper-focada em performance.
-            </p>
-            
-            <p>
-                Se um loop mal escrito custava centavos antes, hoje ele custa reais significativos. A economia digital do futuro não pertencerá a quem tem mais poder de processamento, mas a quem processa com mais elegância e independência do fator cambial.
-            </p>
-
-            <div class="mt-20 pt-12 border-t border-outline-variant/30">
-                <div class="bg-surface-container-lowest border border-outline-variant/30 p-8 flex flex-col md:flex-row gap-8 items-center md:items-start group">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200" alt="Elena Silva" class="w-24 h-24 object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
-                    <div>
-                        <div class="font-label-mono text-xs uppercase tracking-widest text-primary mb-2">Sobre a autora</div>
-                        <h3 class="font-headline text-2xl font-bold mb-3 text-on-background">Elena Silva</h3>
-                        <p class="text-on-surface-variant text-base">Economista focada em infraestrutura digital. Escreve sobre como as flutuações cambiais afetam arquiteturas em nuvem e startups.</p>
                     </div>
                 </div>
-            </div>
+            </header>
 
-        </article>
-        
-        <!-- Next Article Suggestion -->
-        <aside class="px-6 md:px-12 max-w-[1200px] mx-auto mt-24">
+            <!-- Imagem de Destaque -->
+            {% if page.image %}
+            <figure class="w-full mb-16 fade-in-up" style="animation-delay: 0.2s;">
+                <div class="w-full h-[40vh] md:h-[60vh] border border-outline-variant/30 overflow-hidden relative">
+                    <img src="{{ page.image }}" alt="{{ page.title }}" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+                <figcaption class="font-label-mono text-xs text-on-surface-variant mt-4 uppercase tracking-widest text-left">Ficheiro Visual • Arquivo Editorial</figcaption>
+            </figure>
+            {% endif %}
+
+            <!-- Corpo do Artigo -->
+            <article id="article-content" class="article-content text-lg md:text-xl text-on-surface leading-loose space-y-8 font-transition fade-in-up" style="animation-delay: 0.3s;">
+                {{ content }}
+            </article>
+            
+        </div> <!-- Fim da Coluna de Leitura -->
+
+        <!-- Sugestão do Próximo Artigo -->
+        {% if page.next %}
+        <aside class="px-6 md:px-12 max-w-[1200px] mx-auto mt-32 text-left">
             <div class="inline-flex items-center gap-2 mb-8 font-label-mono text-secondary uppercase tracking-widest text-xs">
                 <span class="w-8 h-[1px] bg-secondary"></span> Leia a seguir
             </div>
             
-            <a href="#" class="block group border border-outline-variant/30 bg-surface-container-lowest/80 p-8 md:p-16 hover:bg-surface-variant/20 transition-colors">
+            <a href="{{ site.baseurl }}{{ page.next.url }}" class="block group border border-outline-variant/30 bg-surface-container-lowest/80 p-8 md:p-16 hover:bg-surface-variant/20 transition-colors">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                     <div class="max-w-2xl">
-                        <div class="font-label-mono text-on-surface-variant text-xs mb-4">Sociedade • 18.05.2026</div>
-                        <h2 class="font-headline-lg text-[32px] md:text-[48px] leading-[1.1] font-bold text-on-background group-hover:text-secondary transition-colors tracking-tight">Automação e os mitos do desemprego.</h2>
+                        <div class="font-label-mono text-on-surface-variant text-xs mb-4">
+                            {% if page.next.category %}{{ page.next.category }} • {% endif %}{{ page.next.date | date: "%d.%m.%Y" }}
+                        </div>
+                        <h2 class="font-junicode text-[32px] md:text-[48px] leading-[1.1] font-bold text-on-background group-hover:text-secondary transition-colors tracking-tight">{{ page.next.title }}</h2>
                     </div>
                     <div class="font-label-mono text-sm uppercase tracking-widest text-secondary flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                         Explorar <span class="material-symbols-outlined">arrow_forward</span>
@@ -210,36 +289,123 @@
                 </div>
             </a>
         </aside>
+        {% endif %}
     </main>
 
+    <!-- Rodapé Minimalista -->
+    <footer class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 py-12 px-6 text-center">
+        <div class="font-headline font-bold text-2xl mb-4 text-on-background">sobre<span class="text-primary">.</span></div>
+        <p class="font-label-mono text-xs text-on-surface-variant">© 2026 Editorial. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Lógica de Interface e Interatividade -->
     <script>
-        // Interactive Background
-        document.addEventListener('mousemove', (e) => {
-            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        // Tema Claro/Escuro
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
+
+        if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            htmlElement.classList.remove('dark');
+            themeIcon.textContent = 'dark_mode';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            if (htmlElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = 'light_mode';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = 'dark_mode';
+            }
         });
 
-        // Fullscreen Menu Toggle
-        const fullMenu = document.getElementById('full-menu');
-        const menuToggle = document.getElementById('menu-toggle');
-        const closeMenu = document.getElementById('close-menu');
-
-        menuToggle.addEventListener('click', () => {
-            fullMenu.classList.remove('translate-x-full');
-            fullMenu.classList.add('translate-x-0');
-        });
-        closeMenu.addEventListener('click', () => {
-            fullMenu.classList.add('translate-x-full');
-            fullMenu.classList.remove('translate-x-0');
-        });
-
-        // Reading Progress Bar Logic
+        // Barra de Progresso
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            document.getElementById('reading-progress').style.width = scrolled + "%";
+            const progressBar = document.getElementById('reading-progress');
+            if(progressBar) progressBar.style.width = scrolled + "%";
         });
+
+        // Controlos Editoriais: Tipografia e Margens
+        const articleContent = document.getElementById('article-content');
+        const readingColumn = document.getElementById('reading-column');
+        
+        const fontButtons = document.querySelectorAll('.font-btn');
+        const marginButtons = document.querySelectorAll('.margin-btn');
+
+        function setArticleFont(fontType) {
+            if(!articleContent) return;
+            
+            // Alterar classes do texto
+            articleContent.classList.remove('font-display', 'font-junicode', 'font-label-mono');
+            if (fontType === 'sans') articleContent.classList.add('font-display');
+            if (fontType === 'serif') articleContent.classList.add('font-junicode');
+            if (fontType === 'mono') articleContent.classList.add('font-label-mono');
+            
+            // Alterar estado dos botões
+            fontButtons.forEach(btn => {
+                btn.classList.remove('bg-primary/20', 'text-primary', 'border-primary');
+                btn.classList.add('border-outline-variant/50', 'text-on-surface-variant');
+            });
+            const activeBtn = document.querySelector(`.font-btn[data-font="${fontType}"]`);
+            if(activeBtn) {
+                activeBtn.classList.remove('border-outline-variant/50', 'text-on-surface-variant');
+                activeBtn.classList.add('bg-primary/20', 'text-primary', 'border-primary');
+            }
+            
+            localStorage.setItem('articleFont', fontType);
+        }
+
+        function setReadingMargin(marginType) {
+            if(!readingColumn) return;
+
+            // Alterar larguras (max-w)
+            readingColumn.classList.remove('max-w-[600px]', 'max-w-[800px]', 'max-w-[1200px]');
+            if (marginType === 'narrow') readingColumn.classList.add('max-w-[600px]');
+            if (marginType === 'medium') readingColumn.classList.add('max-w-[800px]');
+            if (marginType === 'wide') readingColumn.classList.add('max-w-[1200px]');
+            
+            // Alterar estado dos botões
+            marginButtons.forEach(btn => {
+                btn.classList.remove('bg-primary/20', 'text-primary', 'border-primary');
+                btn.classList.add('border-outline-variant/50', 'text-on-surface-variant');
+            });
+            const activeBtn = document.querySelector(`.margin-btn[data-margin="${marginType}"]`);
+            if(activeBtn) {
+                activeBtn.classList.remove('border-outline-variant/50', 'text-on-surface-variant');
+                activeBtn.classList.add('bg-primary/20', 'text-primary', 'border-primary');
+            }
+
+            localStorage.setItem('articleMargin', marginType);
+        }
+
+        // Event Listeners dos Controlos
+        fontButtons.forEach(btn => btn.addEventListener('click', () => setArticleFont(btn.dataset.font)));
+        marginButtons.forEach(btn => btn.addEventListener('click', () => setReadingMargin(btn.dataset.margin)));
+
+        // Inicializar com preferências guardadas (ou padrão)
+        setArticleFont(localStorage.getItem('articleFont') || 'serif');
+        setReadingMargin(localStorage.getItem('articleMargin') || 'medium');
+
+        // Menu Toggle
+        const menuOpen = document.getElementById('menu-open');
+        const menuClose = document.getElementById('menu-close');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        if (menuOpen && menuClose && menuOverlay) {
+            menuOpen.addEventListener('click', () => {
+                menuOverlay.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden'; 
+            });
+            menuClose.addEventListener('click', () => {
+                menuOverlay.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+            });
+        }
     </script>
 </body>
 </html>
