@@ -1,183 +1,397 @@
 ---
-# A homepage é especial, então ela tem todo o código HTML direto aqui
+layout: null
 ---
 <!DOCTYPE html>
 <html class="dark" lang="pt-BR">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>{{ site.name }}</title>
+    <title>sobre. - editorial</title>
     
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Ibm+Plex+Serif:wght@400;500;700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
+    <style>
+        /* Importação da Junicode Bold Condensed direto do Repositório via CDN */
+        @font-face {
+            font-family: 'Junicode Condensed';
+            src: url('https://cdn.jsdelivr.net/gh/psb1558/Junicode-font@master/fonts/webfonts/Junicode-CondBold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root { --mouse-x: -1000px; --mouse-y: -1000px; }
+        body { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        /* Fundo Interativo */
+        .dot-bg-base {
+            background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px);
+            background-size: 24px 24px; opacity: 0.4;
+        }
+        .dot-bg-highlight {
+            background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+            mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+        }
+
+        /* Cursor da Máquina de Escrever */
+        .typewriter-cursor::after {
+            content: '|'; animation: blink 1s step-end infinite; margin-left: 2px; font-weight: 400; color: inherit;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Esconder Scrollbar do Carrossel */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* --- EFEITO DE MORPHING DO LOGO (HERO -> HEADER) --- */
+        #typewriter-wrapper {
+            position: fixed;
+            left: 1.5rem; /* px-6 */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 64px;
+            line-height: 1; /* Espaçamento simples garantido */
+            z-index: 60;
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+            text-align: left;
+        }
+        /* Tamanhos Iniciais Responsivos */
+        @media (min-width: 640px) { #typewriter-wrapper { font-size: 96px; } }
+        @media (min-width: 768px) { #typewriter-wrapper { font-size: 140px; left: 3rem; /* md:px-12 */ } }
+        @media (min-width: 1024px) { #typewriter-wrapper { font-size: 180px; } }
+
+        /* Estado "Rolado" (Encaixa no Header) */
+        #typewriter-wrapper.scrolled {
+            top: 1.5rem; /* py-6 */
+            transform: translateY(0);
+            font-size: 1.5rem; /* text-2xl */
+            left: 1.5rem; /* px-6 */
+            pointer-events: auto;
+        }
+        @media (min-width: 768px) {
+            #typewriter-wrapper.scrolled { 
+                left: 3rem; /* md:px-12 */
+                top: 1.5rem; /* py-6 */
+            }
+        }
+    </style>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
-        tailwind.config = { darkMode: "class", theme: { extend: { colors: { surface: "#131316", background: "#131316", "surface-container-lowest": "#0e0e11", "surface-container-high": "#2a2a2d", "on-background": "#e4e1e6", "on-surface": "#e4e1e6", "on-surface-variant": "#c7c6ca", "outline-variant": "#46464a", primary: "#c8c6c8", secondary: "#ffb59d", "tertiary-fixed": "#e2e2e3" }, fontFamily: { "body-md": ["Ibm Plex Serif", "serif"], display: ["Geist", "sans-serif"], "label-mono": ["Geist Mono", "monospace"], headline: ["Geist", "sans-serif"] } } } };
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#2a2a2d", surface: "#131316", background: "#131316",
+                        "surface-container-lowest": "#0e0e11", "surface-container": "#1f1f22", 
+                        primary: "#c8c6c8", secondary: "#ffb59d", "tertiary-fixed": "#e2e2e3",
+                        "on-background": "#e4e1e6", "on-surface-variant": "#c7c6ca", "outline-variant": "#46464a"
+                    }, 
+                    fontFamily: {
+                        "body-md": ["Ibm Plex Serif", "serif"], 
+                        "headline-lg": ["Geist", "sans-serif"], 
+                        display: ["Geist", "sans-serif"], 
+                        "label-mono": ["Geist Mono", "monospace"], 
+                        headline: ["Geist", "sans-serif"],
+                        junicode: ["Junicode Condensed", "serif"] /* Fonte nova adicionada */
+                    }
+                }
+            }
+        };
     </script>
-    
-    <style>
-      :root { --mouse-x: -1000px; --mouse-y: -1000px; }
-      ::-webkit-scrollbar { width: 0px; background: transparent; } 
-      body { -ms-overflow-style: none; scrollbar-width: none; overscroll-behavior-y: none; }
-      .dot-bg-base { background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px); background-size: 24px 24px; opacity: 0.4; }
-      .dot-bg-highlight { background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px); background-size: 24px 24px; -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%); mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%); }
-      .typewriter-cursor::after { content: '|'; animation: blink 1s step-end infinite; margin-left: 2px; font-weight: 400; color: inherit; } @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-      #scroll-proxy { width: 1px; } .horizontal-track { will-change: transform; }
-    </style>
 </head>
-<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-secondary selection:text-on-secondary">
-    
+<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-secondary selection:text-background relative">
+
+    <!-- Interactive Background -->
     <div class="fixed inset-0 pointer-events-none z-0">
         <div class="dot-bg-base absolute inset-0"></div>
         <div class="dot-bg-highlight absolute inset-0"></div>
     </div>
 
-    <!-- Header Flutuante -->
-    <nav id="main-nav" class="fixed top-0 left-0 w-full h-[76px] px-6 md:px-12 z-40 flex justify-end items-center backdrop-blur-md border-b border-outline-variant/30 bg-background/80 transition-all duration-500 -translate-y-full opacity-0 pointer-events-none">
-        <button id="menu-toggle" class="group flex items-center gap-3 text-on-background hover:text-primary transition-colors pointer-events-auto">
-            <span class="font-label-mono text-sm uppercase tracking-widest hidden md:block">Menu</span>
-            <span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300">menu</span>
-        </button>
-    </nav>
+    <!-- O Logo que viaja pela tela (Typewriter) -->
+    <div id="typewriter-wrapper" class="font-display font-bold lowercase text-on-background">
+        <span id="typewriter-logo" class="typewriter-cursor text-left">so</span>
+    </div>
 
-    <!-- Logo Animado -->
-    <a href="{{ site.baseurl }}/" id="floating-logo" class="fixed z-50 font-headline font-bold transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] top-1/2 left-6 md:left-12 lg:left-24 -translate-y-1/2 text-[64px] sm:text-[96px] md:text-[140px] lg:text-[180px] text-primary hover:opacity-80">
-        <span id="typewriter-logo" class="typewriter-cursor">so</span>
-    </a>
-
-    <!-- Menu Overlay -->
-    <div id="full-menu" class="fixed inset-0 bg-surface-container-lowest/95 backdrop-blur-xl z-[100] transition-transform duration-500 translate-x-full flex flex-col md:flex-row">
-        <button id="close-menu" class="absolute top-6 right-6 md:right-12 text-on-background hover:text-primary transition-colors group p-2 z-50">
-             <span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">close</span>
+    <!-- HEADER GLOBAL FIXO (Aparece na rolagem e "recebe" o logo) -->
+    <header id="main-header" class="fixed top-0 left-0 w-full px-6 md:px-12 py-6 flex justify-end items-center z-50 transition-all duration-700 opacity-0 -translate-y-full bg-background/80 backdrop-blur-md border-b border-outline-variant/30 pointer-events-none">
+        <button id="menu-open" class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group pointer-events-auto">
+            <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
+            <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
         </button>
-        <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/30">
-            <div class="flex flex-col items-start max-w-lg">
-                <a href="{{ site.baseurl }}/" class="font-headline font-bold text-[64px] md:text-[120px] leading-none text-primary hover:opacity-80 transition-opacity">sobre.</a>
-                <p class="font-label-mono text-on-surface-variant mt-6 uppercase tracking-widest text-xs md:text-sm">Editorial Technical Blog</p>
-                <div class="text-xs text-on-surface-variant font-label-mono flex flex-col gap-4 mt-12 md:mt-24">
-                    <p>© 2026 Editorial Technical Blog.</p>
+    </header>
+
+    <!-- PÁGINA 1: Hero Section (Tela Inicial Limpa) -->
+    <section class="relative z-10 w-full h-screen flex flex-col justify-end px-6 md:px-12 pb-12">
+        <div class="flex flex-col items-start gap-4 text-outline-variant animate-bounce">
+            <span class="font-label-mono text-xs uppercase tracking-widest">Explorar</span>
+            <span class="material-symbols-outlined">arrow_downward</span>
+        </div>
+    </section>
+
+    <!-- PÁGINA 2: O Super Card com o Carrossel (Últimos 3) -->
+    <section class="relative z-10 w-full min-h-screen p-4 md:p-8 flex items-center justify-center">
+        <!-- O Super Card emoldurado -->
+        <div class="w-full h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)] bg-surface-container-lowest border border-outline-variant/40 flex flex-col relative overflow-hidden shadow-2xl pt-20 md:pt-24">
+            
+            <div class="flex-1 flex flex-col justify-center relative">
+                
+                <div class="absolute top-4 left-6 md:left-10 font-label-mono text-xs uppercase tracking-widest text-outline-variant flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Últimos Ensaios
                 </div>
+
+                <!-- Lista rolável do Carrossel -->
+                <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar w-full h-[65vh] md:h-[60vh] items-center px-6 md:px-10 gap-6 md:gap-12 pb-8 mt-4">
+                    
+                    {% for post in site.posts limit:3 %}
+                    <div class="snap-center shrink-0 w-[85vw] md:w-[60vw] h-full flex flex-col md:flex-row border border-outline-variant/30 bg-surface group relative overflow-hidden">
+                        
+                        <!-- Info do Post -->
+                        <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-between z-10 bg-surface/90 backdrop-blur-sm md:bg-transparent">
+                            <div>
+                                <div class="font-label-mono text-[10px] md:text-xs text-on-surface-variant mb-6 uppercase tracking-widest">
+                                    {{ post.date | date: "%d.%m.%Y" }}
+                                </div>
+                                <!-- Título Junicode Bold Condensed -->
+                                <h2 class="font-junicode text-4xl md:text-5xl lg:text-7xl leading-none font-bold mb-6 group-hover:text-primary transition-colors tracking-tight">
+                                    {{ post.title }}
+                                </h2>
+                                <p class="text-on-surface-variant text-sm md:text-base line-clamp-3">
+                                    {{ post.excerpt | strip_html | truncatewords: 25 }}
+                                </p>
+                            </div>
+                            <a href="{{ site.baseurl }}{{ post.url }}" class="mt-8 font-label-mono text-xs uppercase tracking-widest border border-primary/30 w-fit px-6 py-3 hover:bg-primary/10 text-primary transition-colors">
+                                Ler Ensaio ->
+                            </a>
+                        </div>
+
+                        <!-- Imagem do Post -->
+                        <div class="absolute md:relative inset-0 md:inset-auto w-full md:w-1/2 h-full z-0 overflow-hidden">
+                            <img src="{% if post.image %}{{ post.image }}{% else %}https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=800{% endif %}" alt="{{ post.title }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-30 md:opacity-100">
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Fallback if no posts exist -->
+                    {% if site.posts.size == 0 %}
+                    <div class="snap-center shrink-0 w-[85vw] md:w-[60vw] p-10 border border-outline-variant/30 flex items-center justify-center text-on-surface-variant font-label-mono text-sm">
+                        Nenhum ensaio publicado ainda.
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- Controles do Carrossel -->
+                <div class="absolute bottom-6 right-6 md:right-10 flex gap-4">
+                    <button id="btn-prev" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-variant transition-colors text-on-background z-10 bg-surface">
+                        <span class="material-symbols-outlined">arrow_left</span>
+                    </button>
+                    <button id="btn-next" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-variant transition-colors text-on-background z-10 bg-surface">
+                        <span class="material-symbols-outlined">arrow_right</span>
+                    </button>
+                </div>
+
             </div>
         </div>
-        <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center">
-            <ul class="flex flex-col gap-6 md:gap-12 font-display text-4xl md:text-7xl font-bold tracking-tight">
-                <!-- CORREÇÃO DOS LINKS AQUI TAMBÉM -->
-                <li><a href="{{ site.baseurl }}/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Início</a></li>
-                <li><a href="{{ site.baseurl }}/autores/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
-                <li><a href="{{ site.baseurl }}/manifesto/" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
-            </ul>
+    </section>
+
+    <!-- PÁGINA 3: Acervo (Quadros) -->
+    <section class="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 min-h-screen">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-outline-variant/30 pb-6">
+            <div>
+                <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2">Acervo.</h2>
+                <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-xs md:text-sm">O arquivo completo de publicações</p>
+            </div>
         </div>
-    </div>
 
-    <!-- Barra de Progresso -->
-    <div class="fixed bottom-0 left-0 w-full h-1 bg-surface-container-high z-50">
-        <div id="progress-bar" class="h-full bg-primary w-0 origin-left"></div>
-    </div>
-
-    <div id="scroll-proxy"></div>
-
-    <main class="fixed top-0 left-0 w-full h-screen overflow-hidden z-10">
-        <div id="horizontal-container" class="horizontal-track flex h-full items-center pt-20">
+        <!-- Grade de Quadros -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             
-            <section class="w-screen h-full shrink-0 flex flex-col justify-center relative">
-                <div class="absolute bottom-12 right-12 md:right-24 flex items-center gap-4 text-on-surface-variant font-label-mono text-sm uppercase tracking-widest animate-pulse">
-                    <span>Role para explorar</span> <span class="material-symbols-outlined">arrow_forward</span>
+            {% for post in site.posts offset:3 %}
+            <!-- Quadro -->
+            <a href="{{ site.baseurl }}{{ post.url }}" class="group flex flex-col h-[550px] border border-outline-variant/30 bg-surface-container-lowest hover:-translate-y-2 transition-transform duration-500">
+                <div class="h-1/2 overflow-hidden border-b border-outline-variant/30 relative">
+                    <img src="{% if post.image %}{{ post.image }}{% else %}https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=600{% endif %}" alt="{{ post.title }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700">
+                    {% if post.category %}
+                    <div class="absolute top-4 right-4 bg-background px-3 py-1 font-label-mono text-[10px] uppercase text-primary border border-outline-variant/30">{{ post.category }}</div>
+                    {% endif %}
                 </div>
-            </section>
-
-            <section class="w-[40vw] md:w-[30vw] shrink-0 px-12 md:px-24 flex flex-col justify-center border-l border-outline-variant/30 h-full">
-                <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-4">Arquivo.</h2>
-                <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-sm">Nossos últimos ensaios</p>
-                <span class="w-24 h-[1px] bg-outline-variant mt-8"></span>
-            </section>
-
-            <section class="flex gap-8 px-6 md:px-12 shrink-0 pr-24">
-                {% for post in site.posts %}
-                <article class="w-[300px] md:w-[400px] h-[60vh] flex flex-col border border-outline-variant/30 bg-surface-container-lowest/80 group">
-                    <div class="h-1/2 overflow-hidden border-b border-outline-variant/30 relative">
-                        <img src="{{ post.image }}" class="w-full h-full object-cover filter grayscale group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" alt="{{ post.title }}">
-                        <div class="absolute top-4 right-4 bg-background px-3 py-1 font-label-mono text-[10px] uppercase text-primary">{{ post.category }}</div>
+                <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                    <div>
+                        <div class="font-label-mono text-outline-variant text-[10px] mb-6">{{ post.date | date: "%d.%m.%Y" }}</div>
+                        <!-- Título Junicode Bold Condensed -->
+                        <h3 class="font-junicode text-3xl leading-none font-bold mb-3 group-hover:text-primary transition-colors line-clamp-3 tracking-tight">{{ post.title }}</h3>
                     </div>
-                    <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
-                        <div>
-                            <div class="font-label-mono text-on-surface-variant text-xs mb-3">{{ post.date | date: "%d.%m.%Y" }}</div>
-                            <h3 class="font-headline text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors">{{ post.title }}</h3>
-                        </div>
-                        <!-- CORREÇÃO DO LINK DO ARTIGO -->
-                        <a href="{{ site.baseurl }}{{ post.url }}" class="font-label-mono text-xs uppercase tracking-widest hover:text-primary transition-colors">Ler -></a>
+                    <div class="font-label-mono text-xs uppercase tracking-widest text-on-surface-variant group-hover:text-primary transition-colors">
+                        Ler Ensaio ->
                     </div>
-                </article>
-                {% endfor %}
-            </section>
+                </div>
+            </a>
+            {% endfor %}
+
         </div>
-    </main>
+    </section>
 
+    <!-- Rodapé -->
+    <footer class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 py-12 px-6 text-center">
+        <div class="font-headline font-bold text-2xl mb-4 text-on-background">sobre<span class="text-primary">.</span></div>
+        <p class="font-label-mono text-xs text-on-surface-variant">© 2026 Editorial. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- OVERLAY MENU -->
+    <div id="menu-overlay" class="fixed inset-0 bg-background/95 backdrop-blur-xl z-[100] translate-x-full transition-transform duration-500 flex flex-col">
+        <div class="w-full p-6 md:px-12 md:py-8 flex justify-end border-b border-outline-variant/20">
+            <button id="menu-close" class="text-on-background hover:text-primary transition-colors group flex items-center gap-2">
+                <span class="font-label-mono text-xs uppercase tracking-widest">Fechar</span>
+                <span class="material-symbols-outlined text-4xl group-hover:rotate-90 transition-transform duration-300">close</span>
+            </button>
+        </div>
+        <div class="flex-1 flex flex-col md:flex-row w-full max-w-[1400px] mx-auto p-6 md:p-12 gap-12">
+            <div class="w-full md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/20 pb-12 md:pb-0">
+                <div class="font-headline font-bold text-6xl md:text-8xl tracking-tight mb-6 text-on-background">sobre<span class="text-primary">.</span></div>
+                <p class="font-label-mono text-on-surface-variant text-sm max-w-sm leading-relaxed uppercase tracking-widest">
+                    Um arquivo digital dedicado à interseção entre tecnologia, arte e economia.
+                </p>
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col justify-center">
+                <nav>
+                    <ul class="flex flex-col gap-6 md:gap-8 font-headline text-3xl md:text-5xl font-bold">
+                        <li><a href="{{ site.baseurl }}/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Início</a></li>
+                        <li><a href="{{ site.baseurl }}/autores/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Autores</a></li>
+                        <li><a href="{{ site.baseurl }}/manifesto/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Manifesto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script>
-        document.addEventListener('mousemove', (e) => { document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`); document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`); });
+        // Fundo interativo
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        });
 
-        const fullMenu = document.getElementById('full-menu');
-        const menuToggle = document.getElementById('menu-toggle');
-        const closeMenu = document.getElementById('close-menu');
-        menuToggle.addEventListener('click', () => { fullMenu.classList.remove('translate-x-full'); });
-        closeMenu.addEventListener('click', () => { fullMenu.classList.add('translate-x-full'); });
-
+        // Typewriter Effect Alinhado à Esquerda
         document.addEventListener('DOMContentLoaded', () => {
             const phrases = ['sobre o dólar', 'sobre o futuro', 'sobre a arte', 'sobre o código', 'sobre.'];
-            let currentPhraseIndex = 0, isDeleting = false, currentText = '', typingSpeed = 100;
+            let currentPhraseIndex = 0, isDeleting = false, currentText = '';
             const logoElement = document.getElementById('typewriter-logo');
+            let typingSpeed = 100;
+
             function type() {
                 if (!logoElement) return;
                 const fullText = phrases[currentPhraseIndex];
-                if (isDeleting) { currentText = fullText.substring(0, currentText.length - 1); typingSpeed = 50; } 
-                else { currentText = fullText.substring(0, currentText.length + 1); typingSpeed = 100; }
+                
+                if (isDeleting) {
+                    currentText = fullText.substring(0, currentText.length - 1);
+                    typingSpeed = 50;
+                } else {
+                    currentText = fullText.substring(0, currentText.length + 1);
+                    typingSpeed = 100;
+                }
+                
                 logoElement.textContent = currentText;
                 let delay = typingSpeed;
-                if (!isDeleting && currentText === fullText) { delay = 2000; isDeleting = true; } 
-                else if (isDeleting && currentText === '') { isDeleting = false; currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length; delay = 500; }
+                
+                if (!isDeleting && currentText === fullText) {
+                    delay = 2000; isDeleting = true;
+                } else if (isDeleting && currentText === '') {
+                    isDeleting = false; currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length; delay = 500;
+                }
                 setTimeout(type, delay);
             }
             if (logoElement) setTimeout(type, 500);
         });
 
-        const container = document.getElementById('horizontal-container');
-        const proxy = document.getElementById('scroll-proxy');
-        const progressBar = document.getElementById('progress-bar');
-        const nav = document.getElementById('main-nav');
-        const floatingLogo = document.getElementById('floating-logo');
-
-        let currentScroll = 0, targetScroll = 0, isLogoScrolled = false;
-        const ease = 0.08;
-
-        function updateDimensions() { proxy.style.height = `${container.scrollWidth - window.innerWidth + window.innerHeight}px`; }
-        window.addEventListener('scroll', () => { targetScroll = window.scrollY; });
-
-        function animateScroll() {
-            currentScroll += (targetScroll - currentScroll) * ease;
-            container.style.transform = `translate3d(${-currentScroll}px, 0, 0)`;
-            
-            const maxScroll = proxy.offsetHeight - window.innerHeight;
-            if (maxScroll > 0) progressBar.style.width = `${(currentScroll / maxScroll) * 100}%`;
-
-            if (currentScroll > 50 && !isLogoScrolled) {
-                isLogoScrolled = true;
-                nav.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
-                floatingLogo.classList.remove('top-1/2', '-translate-y-1/2', 'text-[64px]', 'sm:text-[96px]', 'md:text-[140px]', 'lg:text-[180px]', 'text-primary', 'lg:left-24');
-                floatingLogo.classList.add('top-[24px]', 'text-xl', 'text-on-background', 'hover:text-primary', 'left-6', 'md:left-12');
-            } else if (currentScroll <= 50 && isLogoScrolled) {
-                isLogoScrolled = false;
-                nav.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
-                floatingLogo.classList.add('top-1/2', '-translate-y-1/2', 'text-[64px]', 'sm:text-[96px]', 'md:text-[140px]', 'lg:text-[180px]', 'text-primary', 'lg:left-24');
-                floatingLogo.classList.remove('top-[24px]', 'text-xl', 'text-on-background', 'hover:text-primary', 'left-6', 'md:left-12');
+        // --- LÓGICA DE TRANSIÇÃO DO LOGO E HEADER ---
+        const header = document.getElementById('main-header');
+        const typewriterWrapper = document.getElementById('typewriter-wrapper');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                // Ao rolar, encolhe o logo e revela a barra de menu
+                typewriterWrapper.classList.add('scrolled');
+                header.classList.remove('opacity-0', '-translate-y-full', 'pointer-events-none');
+                header.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                // Retorna ao estado inicial gigante
+                typewriterWrapper.classList.remove('scrolled');
+                header.classList.add('opacity-0', '-translate-y-full', 'pointer-events-none');
+                header.classList.remove('opacity-100', 'translate-y-0');
             }
-            requestAnimationFrame(animateScroll);
+        });
+
+        // --- LÓGICA DO CARROSSEL COM TEMPORIZADOR ---
+        const carousel = document.getElementById('carousel');
+        const btnNext = document.getElementById('btn-next');
+        const btnPrev = document.getElementById('btn-prev');
+        let carouselTimer;
+
+        function scrollNext() {
+            if(!carousel) return;
+            const scrollAmount = carousel.clientWidth * 0.8;
+            // Verifica se chegou no final do scroll
+            if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                carousel.scrollTo({ left: 0, behavior: 'smooth' }); // Volta pro início
+            } else {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
         }
 
-        window.addEventListener('resize', updateDimensions);
-        setTimeout(() => { updateDimensions(); animateScroll(); }, 100);
-        window.addEventListener('load', updateDimensions);
+        function startCarousel() {
+            // Alterna a cada 4.5 segundos
+            carouselTimer = setInterval(scrollNext, 4500);
+        }
+
+        function resetCarouselTimer() {
+            clearInterval(carouselTimer);
+            startCarousel(); // Reinicia o timer após interação manual
+        }
+
+        if(carousel && btnNext && btnPrev) {
+            btnNext.addEventListener('click', () => {
+                scrollNext();
+                resetCarouselTimer();
+            });
+            btnPrev.addEventListener('click', () => {
+                const scrollAmount = carousel.clientWidth * 0.8;
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                resetCarouselTimer();
+            });
+            
+            // Pausa ou reinicia o timer ao tocar (no celular)
+            carousel.addEventListener('touchstart', resetCarouselTimer, {passive: true});
+            
+            // Inicia o temporizador automático
+            startCarousel();
+        }
+
+        // Menu Toggle
+        const menuOpen = document.getElementById('menu-open');
+        const menuClose = document.getElementById('menu-close');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        if (menuOpen && menuClose && menuOverlay) {
+            menuOpen.addEventListener('click', () => {
+                menuOverlay.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden'; 
+            });
+            menuClose.addEventListener('click', () => {
+                menuOverlay.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+            });
+        }
     </script>
 </body>
 </html>
