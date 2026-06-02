@@ -122,15 +122,30 @@ layout: null
         }
 
         .editorial-controls {
+            --controls-transform: none;
             width: max-content;
-            border: 0;
+            border: 0 !important;
+            outline: 0;
             border-radius: 999px;
             background: color-mix(in srgb, var(--surface-lowest) 78%, transparent);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             box-shadow: 0 18px 40px rgb(0 0 0 / 0.14);
             padding: 0.55rem;
-            z-index: 45;
+            z-index: 120;
+            transform: var(--controls-transform);
+        }
+
+        .editorial-controls,
+        .editorial-controls * {
+            border-color: transparent !important;
+        }
+
+        .font-glyph {
+            font-size: 0.95rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
         }
 
         .tool-group {
@@ -192,22 +207,47 @@ layout: null
                 position: sticky;
                 top: 7rem;
                 align-self: start;
+                opacity: 0;
+                pointer-events: none;
+                --controls-transform: translateY(0.5rem);
+                transition: opacity 0.28s ease, transform 0.28s ease, background-color 0.2s ease;
+            }
+
+            .editorial-controls.is-visible {
+                opacity: 1;
+                pointer-events: auto;
+                --controls-transform: translateY(0);
             }
         }
 
         @media (max-width: 1023px) {
+            body {
+                padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+            }
+
             .reading-shell {
                 display: block;
                 max-width: 100%;
             }
 
+            #reading-column {
+                max-width: 100% !important;
+            }
+
             .editorial-controls {
-                position: sticky;
-                top: 5.25rem;
+                position: fixed;
+                left: 50%;
+                right: auto;
+                top: auto;
+                bottom: calc(1rem + env(safe-area-inset-bottom));
                 display: flex;
                 align-items: center;
                 gap: 0.25rem;
-                margin-bottom: 2rem;
+                margin: 0;
+                opacity: 1;
+                pointer-events: auto;
+                --controls-transform: translateX(-50%);
+                box-shadow: 0 18px 50px rgb(0 0 0 / 0.28);
             }
 
             .tool-group {
@@ -219,20 +259,16 @@ layout: null
                 height: 1.75rem;
                 margin: 0 0.3rem;
             }
+
+            .margin-control,
+            .margin-separator {
+                display: none !important;
+            }
         }
 
         @media (max-width: 767px) {
             .reading-shell {
                 padding-inline: 1.5rem;
-            }
-
-            #reading-column {
-                max-width: 100% !important;
-            }
-
-            .margin-control,
-            .margin-separator {
-                display: none !important;
             }
 
             #article-content.font-junicode {
@@ -333,15 +369,15 @@ layout: null
                 <!-- Fonte -->
                 <div class="tool-group font-control" aria-label="Fonte do texto">
                     <button data-font="sans" class="font-btn tool-btn" title="Fonte sem serifa">
-                        <span class="material-symbols-outlined text-[21px]">text_fields</span>
+                        <span class="font-glyph font-display" aria-hidden="true">Aa</span>
                         <span class="sr-only">Fonte sem serifa</span>
                     </button>
                     <button data-font="serif" class="font-btn tool-btn" title="Fonte com serifa">
-                        <span class="material-symbols-outlined text-[21px]">auto_stories</span>
+                        <span class="font-glyph font-junicode" aria-hidden="true">Aa</span>
                         <span class="sr-only">Fonte com serifa</span>
                     </button>
                     <button data-font="mono" class="font-btn tool-btn" title="Fonte monoespaçada">
-                        <span class="material-symbols-outlined text-[21px]">code</span>
+                        <span class="font-glyph font-label-mono" aria-hidden="true">Aa</span>
                         <span class="sr-only">Fonte monoespaçada</span>
                     </button>
                 </div>
@@ -393,16 +429,18 @@ layout: null
                 </div>
                 {% endif %}
                 
-                <!-- Título Maior e Junicode -->
-                <h1 class="font-junicode text-[56px] md:text-[80px] lg:text-[100px] leading-[0.9] font-bold mb-8 tracking-tight text-on-background">
-                    {{ page.title }}
-                </h1>
-                
-                {% if page.excerpt %}
-                <p class="text-xl md:text-2xl text-on-surface-variant font-junicode mb-12 leading-relaxed">
-                    {{ page.excerpt | strip_html | truncatewords: 30 }}
-                </p>
-                {% endif %}
+                <div id="title-area">
+                    <!-- Título Maior e Junicode -->
+                    <h1 class="font-junicode text-[56px] md:text-[80px] lg:text-[100px] leading-[0.9] font-bold mb-8 tracking-tight text-on-background">
+                        {{ page.title }}
+                    </h1>
+                    
+                    {% if page.excerpt %}
+                    <p class="text-xl md:text-2xl text-on-surface-variant font-junicode mb-12 leading-relaxed">
+                        {{ page.excerpt | strip_html | truncatewords: 30 }}
+                    </p>
+                    {% endif %}
+                </div>
                 
                 <!-- Autor e Painel de Controlos -->
                 <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 border-y border-outline-variant/30 py-6">
@@ -558,6 +596,31 @@ layout: null
         setArticleFont(localStorage.getItem('articleFont') || 'serif');
         setArticleAlignment(localStorage.getItem('articleAlignment') || 'left');
         setReadingMargin(localStorage.getItem('articleMargin') || 'medium');
+
+        // No desktop, a ilha só aparece depois do título/subtítulo.
+        // No mobile/tablet, ela permanece como pílula fixa inferior.
+        const editorialControls = document.getElementById('editorial-controls');
+        const titleArea = document.getElementById('title-area');
+        const desktopControlsQuery = window.matchMedia('(min-width: 1024px)');
+
+        function updateEditorialControlsVisibility() {
+            if (!editorialControls) return;
+
+            if (!desktopControlsQuery.matches) {
+                editorialControls.classList.add('is-visible');
+                return;
+            }
+
+            const titleBottom = titleArea
+                ? titleArea.getBoundingClientRect().bottom + window.scrollY
+                : 0;
+            const triggerPoint = window.scrollY + 120;
+            editorialControls.classList.toggle('is-visible', triggerPoint >= titleBottom);
+        }
+
+        window.addEventListener('scroll', updateEditorialControlsVisibility, { passive: true });
+        window.addEventListener('resize', updateEditorialControlsVisibility);
+        updateEditorialControlsVisibility();
 
 
 
