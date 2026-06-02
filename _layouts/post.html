@@ -148,6 +148,41 @@ layout: null
             letter-spacing: -0.04em;
         }
 
+        .size-glyph {
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .measure-icon {
+            width: 1.05rem;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.18rem;
+        }
+
+        .measure-icon span {
+            display: block;
+            height: 0.11rem;
+            border-radius: 999px;
+            background: currentColor;
+        }
+
+        .measure-icon.narrow span:nth-child(1) { width: 0.45rem; }
+        .measure-icon.narrow span:nth-child(2) { width: 0.8rem; }
+        .measure-icon.narrow span:nth-child(3) { width: 0.45rem; }
+
+        .measure-icon.medium span:nth-child(1) { width: 0.7rem; }
+        .measure-icon.medium span:nth-child(2) { width: 0.95rem; }
+        .measure-icon.medium span:nth-child(3) { width: 0.7rem; }
+
+        .measure-icon.wide span:nth-child(1) { width: 0.95rem; }
+        .measure-icon.wide span:nth-child(2) { width: 1.15rem; }
+        .measure-icon.wide span:nth-child(3) { width: 0.95rem; }
+
         .tool-group {
             display: flex;
             flex-direction: column;
@@ -184,6 +219,12 @@ layout: null
             transform: translateY(-1px);
         }
 
+        .tool-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .article-content.align-left p {
             text-align: left;
         }
@@ -192,6 +233,21 @@ layout: null
             text-align: justify;
             hyphens: auto;
             text-wrap: pretty;
+        }
+
+        .article-content.size-sm {
+            font-size: clamp(1rem, 0.96rem + 0.18vw, 1.125rem) !important;
+            line-height: 1.9;
+        }
+
+        .article-content.size-md {
+            font-size: clamp(1.125rem, 1.04rem + 0.35vw, 1.25rem) !important;
+            line-height: 1.95;
+        }
+
+        .article-content.size-lg {
+            font-size: clamp(1.25rem, 1.14rem + 0.55vw, 1.45rem) !important;
+            line-height: 2;
         }
 
         @media (min-width: 1024px) {
@@ -272,7 +328,6 @@ layout: null
             }
 
             #article-content.font-junicode {
-                font-size: 1.125rem;
                 line-height: 2;
                 letter-spacing: 0;
                 word-spacing: 0.025em;
@@ -384,6 +439,20 @@ layout: null
 
                 <div class="tool-separator"></div>
 
+                <!-- Tamanho da fonte -->
+                <div class="tool-group size-control" aria-label="Tamanho da fonte">
+                    <button id="font-size-decrease" class="size-btn tool-btn" title="Diminuir fonte">
+                        <span class="material-symbols-outlined text-[21px]" aria-hidden="true">text_decrease</span>
+                        <span class="sr-only">Diminuir fonte</span>
+                    </button>
+                    <button id="font-size-increase" class="size-btn tool-btn" title="Aumentar fonte">
+                        <span class="material-symbols-outlined text-[21px]" aria-hidden="true">text_increase</span>
+                        <span class="sr-only">Aumentar fonte</span>
+                    </button>
+                </div>
+
+                <div class="tool-separator"></div>
+
                 <!-- Alinhamento do texto -->
                 <div class="tool-group align-control" aria-label="Alinhamento do texto">
                     <button data-align="left" class="align-btn tool-btn" title="Alinhar à esquerda">
@@ -401,15 +470,15 @@ layout: null
                 <!-- Margem/Largura: oculto no mobile -->
                 <div class="tool-group margin-control" aria-label="Largura da leitura">
                     <button data-margin="narrow" class="margin-btn tool-btn" title="Leitura estreita">
-                        <span class="material-symbols-outlined text-[21px]">width_narrow</span>
+                        <span class="measure-icon narrow" aria-hidden="true"><span></span><span></span><span></span></span>
                         <span class="sr-only">Leitura estreita</span>
                     </button>
                     <button data-margin="medium" class="margin-btn tool-btn" title="Leitura média">
-                        <span class="material-symbols-outlined text-[21px]">width_normal</span>
+                        <span class="measure-icon medium" aria-hidden="true"><span></span><span></span><span></span></span>
                         <span class="sr-only">Leitura média</span>
                     </button>
                     <button data-margin="wide" class="margin-btn tool-btn" title="Leitura ampla">
-                        <span class="material-symbols-outlined text-[21px]">width_full</span>
+                        <span class="measure-icon wide" aria-hidden="true"><span></span><span></span><span></span></span>
                         <span class="sr-only">Leitura ampla</span>
                     </button>
                 </div>
@@ -542,8 +611,13 @@ layout: null
         const readingShell = document.getElementById('reading-shell');
 
         const fontButtons = document.querySelectorAll('.font-btn');
+        const decreaseSizeButton = document.getElementById('font-size-decrease');
+        const increaseSizeButton = document.getElementById('font-size-increase');
         const alignButtons = document.querySelectorAll('.align-btn');
         const marginButtons = document.querySelectorAll('.margin-btn');
+
+        const articleSizeLevels = ['sm', 'md', 'lg'];
+        let currentArticleSize = 'md';
 
         function setActiveButton(buttons, dataName, value) {
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -561,6 +635,37 @@ layout: null
 
             setActiveButton(fontButtons, 'font', fontType);
             localStorage.setItem('articleFont', fontType);
+        }
+
+
+        function updateSizeButtons() {
+            const currentIndex = articleSizeLevels.indexOf(currentArticleSize);
+
+            if (decreaseSizeButton) decreaseSizeButton.disabled = currentIndex <= 0;
+            if (increaseSizeButton) increaseSizeButton.disabled = currentIndex >= articleSizeLevels.length - 1;
+        }
+
+        function setArticleSize(sizeType) {
+            if(!articleContent) return;
+
+            const safeSize = articleSizeLevels.includes(sizeType) ? sizeType : 'md';
+            currentArticleSize = safeSize;
+
+            articleContent.classList.remove('size-sm', 'size-md', 'size-lg');
+            articleContent.classList.add(`size-${safeSize}`);
+
+            updateSizeButtons();
+            localStorage.setItem('articleSize', safeSize);
+        }
+
+        function changeArticleSize(direction) {
+            const currentIndex = articleSizeLevels.indexOf(currentArticleSize);
+            const nextIndex = Math.min(
+                Math.max(currentIndex + direction, 0),
+                articleSizeLevels.length - 1
+            );
+
+            setArticleSize(articleSizeLevels[nextIndex]);
         }
 
         function setArticleAlignment(alignmentType) {
@@ -589,11 +694,14 @@ layout: null
 
         // Event Listeners dos Controlos
         fontButtons.forEach(btn => btn.addEventListener('click', () => setArticleFont(btn.dataset.font)));
+        if (decreaseSizeButton) decreaseSizeButton.addEventListener('click', () => changeArticleSize(-1));
+        if (increaseSizeButton) increaseSizeButton.addEventListener('click', () => changeArticleSize(1));
         alignButtons.forEach(btn => btn.addEventListener('click', () => setArticleAlignment(btn.dataset.align)));
         marginButtons.forEach(btn => btn.addEventListener('click', () => setReadingMargin(btn.dataset.margin)));
 
         // Inicializar com preferências guardadas (ou padrão)
         setArticleFont(localStorage.getItem('articleFont') || 'serif');
+        setArticleSize(localStorage.getItem('articleSize') || 'md');
         setArticleAlignment(localStorage.getItem('articleAlignment') || 'left');
         setReadingMargin(localStorage.getItem('articleMargin') || 'medium');
 
