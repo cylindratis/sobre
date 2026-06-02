@@ -5,7 +5,7 @@ description: "Análise teórica e estratégica sobre o desenvolvimento econômic
 category: "Desenvolvimento Econômico"
 image: ""
 author: "Sofia G. Sulzbach"
-author_image: "https://instagram.fpoa11-1.fna.fbcdn.net/v/t51.2885-19/414479901_2406626556394450_4253758306758779527_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43NjguYzIifQ&_nc_ht=instagram.fpoa11-1.fna.fbcdn.net&_nc_cat=110&_nc_oc=Q6cZ2gEDV-XyRdWss6kCIFi-wFd9cW3OVMxaMHs0nK8pLbMxj3AkXBYFdYbNmFVJRQu4Y9SVXt-Cp-CqugfdTkE9QzMr&_nc_ohc=qVhjgb2hWWQQ7kNvwGf-drf&_nc_gid=73bEjU_jvv9DfOnHblyDwg&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Af-Rc7JGIV5QhbLPUnvJ__c-bDDswVp9fWaBc1HuzetyRw&oe=6A2540F0&_nc_sid=7a9f4b"
+author_image: "[https://instagram.fpoa11-1.fna.fbcdn.net/v/t51.2885-19/414479901_2406626556394450_4253758306758779527_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43NjguYzIifQ&_nc_ht=instagram.fpoa11-1.fna.fbcdn.net&_nc_cat=110&_nc_oc=Q6cZ2gEDV-XyRdWss6kCIFi-wFd9cW3OVMxaMHs0nK8pLbMxj3AkXBYFdYbNmFVJRQu4Y9SVXt-Cp-CqugfdTkE9QzMr&_nc_ohc=qVhjgb2hWWQQ7kNvwGf-drf&_nc_gid=73bEjU_jvv9DfOnHblyDwg&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Af-Rc7JGIV5QhbLPUnvJ__c-bDDswVp9fWaBc1HuzetyRw&oe=6A2540F0&_nc_sid=7a9f4b](https://instagram.fpoa11-1.fna.fbcdn.net/v/t51.2885-19/414479901_2406626556394450_4253758306758779527_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby43NjguYzIifQ&_nc_ht=instagram.fpoa11-1.fna.fbcdn.net&_nc_cat=110&_nc_oc=Q6cZ2gEDV-XyRdWss6kCIFi-wFd9cW3OVMxaMHs0nK8pLbMxj3AkXBYFdYbNmFVJRQu4Y9SVXt-Cp-CqugfdTkE9QzMr&_nc_ohc=qVhjgb2hWWQQ7kNvwGf-drf&_nc_gid=73bEjU_jvv9DfOnHblyDwg&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Af-Rc7JGIV5QhbLPUnvJ__c-bDDswVp9fWaBc1HuzetyRw&oe=6A2540F0&_nc_sid=7a9f4b)"
 date: 2025-06-03
 ---
 
