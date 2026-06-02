@@ -33,6 +33,23 @@ layout: null
             font-stretch: condensed;
         }
 
+        @font-face {
+            font-family: 'Junicode';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Roman.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+            font-stretch: normal;
+        }
+        @font-face {
+            font-family: 'Junicode';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Italic.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: italic;
+            font-display: swap;
+            font-stretch: normal;
+        }
+
         /* VARIÁVEIS DO MODO CLARO / ESCURO */
         :root { 
             --bg: #f8f9fa; --surface: #ffffff; --surface-lowest: #f1f3f4; --surface-high: #e8eaed;
@@ -225,6 +242,19 @@ layout: null
             transform: none;
         }
 
+        #article-content.font-junicode {
+            font-family: 'Junicode', serif;
+            line-height: 1.15;
+            letter-spacing: 0;
+            word-spacing: normal;
+        }
+
+        #article-content.font-junicode p,
+        #article-content.font-junicode li,
+        #article-content.font-junicode blockquote {
+            line-height: 1.15;
+        }
+
         .article-content.align-left p {
             text-align: left;
         }
@@ -325,12 +355,6 @@ layout: null
         @media (max-width: 767px) {
             .reading-shell {
                 padding-inline: 1.5rem;
-            }
-
-            #article-content.font-junicode {
-                line-height: 2;
-                letter-spacing: 0;
-                word-spacing: 0.025em;
             }
 
             #article-content.font-junicode p {
