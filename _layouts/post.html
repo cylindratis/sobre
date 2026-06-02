@@ -1,59 +1,245 @@
----
-layout: default
----
-<style>
-    /* Letra capitular no primeiro parágrafo */
-    .article-content > p:first-of-type::first-letter {
-        font-family: 'Geist', sans-serif;
-        font-size: 4rem; line-height: 0.8; float: left;
-        margin-right: 0.5rem; margin-bottom: -0.2rem;
-        color: theme('colors.primary'); font-weight: bold;
-    }
-</style>
-
-<!-- Barra de Progresso de Leitura -->
-<div class="fixed top-[76px] left-0 w-full h-1 bg-surface-container-highest z-50">
-    <div id="reading-progress" class="h-full bg-primary w-0 origin-left transition-all duration-150 ease-out"></div>
-</div>
-
-<main class="relative z-10 pt-32 pb-24 min-h-screen">
+<!DOCTYPE html>
+<html class="dark" lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>O impacto do dólar na nova economia digital - sobre.</title>
     
-    <header class="px-6 md:px-12 max-w-[800px] mx-auto text-center mb-16">
-        <div class="inline-flex items-center gap-2 mb-8 font-label-mono text-primary uppercase tracking-widest text-xs">
-            <span class="w-8 h-[1px] bg-primary"></span> {{ page.category }}
-        </div>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&family=Ibm+Plex+Serif:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#2a2a2d", "on-primary-container": "#828183", "inverse-on-surface": "#303033", surface: "#131316", "primary-fixed-dim": "#c8c6c8", "inverse-surface": "#e4e1e6", "surface-variant": "#353438", background: "#131316", "inverse-primary": "#5f5e60", "on-secondary-fixed-variant": "#832600", "on-secondary": "#5d1800", "surface-container-lowest": "#0e0e11", "tertiary-fixed": "#e2e2e3", "surface-container": "#1f1f22", "surface-container-highest": "#353438", "on-tertiary-fixed-variant": "#454748", "tertiary-container": "#17191a", "on-secondary-fixed": "#390c00", "secondary-container": "#cd4102", "on-tertiary-container": "#808283", "on-secondary-container": "#fff7f4", tertiary: "#c6c6c7", "tertiary-fixed-dim": "#c6c6c7", "on-primary-fixed-variant": "#474649", "primary-container": "#18181a", "on-surface": "#e4e1e6", "on-primary": "#303032", "surface-tint": "#c8c6c8", "on-error-container": "#ffdad6", secondary: "#ffb59d", "surface-container-low": "#1b1b1e", "on-tertiary-fixed": "#1a1c1d", "on-tertiary": "#2f3132", "error-container": "#93000a", "on-error": "#690005", outline: "#919095", "on-background": "#e4e1e6", "outline-variant": "#46464a", "primary-fixed": "#e4e2e4", "on-primary-fixed": "#1b1b1d", "surface-dim": "#131316", error: "#ffb4ab", "secondary-fixed": "#ffdbd0", "on-surface-variant": "#c7c6ca", primary: "#c8c6c8", "surface-bright": "#39393c", "secondary-fixed-dim": "#ffb59d"
+                    }, 
+                    fontFamily: {
+                        "body-md": ["Ibm Plex Serif", "serif"], 
+                        "headline-lg": ["Geist", "sans-serif"], 
+                        display: ["Geist", "sans-serif"], 
+                        "label-mono": ["Geist Mono", "monospace"], 
+                        headline: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <style>
+      :root { --mouse-x: -1000px; --mouse-y: -1000px; }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #131316; }
+      ::-webkit-scrollbar-thumb { background: #353438; }
+
+      .dot-bg-base {
+        background-image: radial-gradient(#cfc4c5 1.5px, transparent 1.5px);
+        background-size: 24px 24px;
+        opacity: 0.4;
+      }
+      .dot-bg-highlight {
+        background-image: radial-gradient(#000000 1.5px, transparent 1.5px);
+        background-size: 24px 24px;
+        -webkit-mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+        mask-image: radial-gradient(circle 250px at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%);
+      }
+      .dark .dot-bg-base { background-image: radial-gradient(#4c4546 1.5px, transparent 1.5px); }
+      .dark .dot-bg-highlight { background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px); }
+      
+      /* Drop Cap for first paragraph */
+      .article-content > p:first-of-type::first-letter {
+          font-family: 'Geist', sans-serif;
+          font-size: 4rem;
+          line-height: 0.8;
+          float: left;
+          margin-right: 0.5rem;
+          margin-bottom: -0.2rem;
+          color: theme('colors.primary');
+          font-weight: bold;
+      }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen antialiased selection:bg-primary selection:text-on-primary">
+    
+    <!-- Reading Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-surface-container-highest z-50">
+        <div id="reading-progress" class="h-full bg-primary w-0 origin-left transition-all duration-150 ease-out"></div>
+    </div>
+
+    <!-- Interactive Dotted Background -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="dot-bg-base absolute inset-0"></div>
+        <div class="dot-bg-highlight absolute inset-0"></div>
+    </div>
+
+    <nav class="fixed top-0 left-0 w-full h-[76px] px-6 md:px-12 z-40 flex justify-between items-center backdrop-blur-md border-b border-outline-variant/30 bg-background/80 mt-1">
+        <a href="editorial_horizontal.html" class="font-headline font-bold text-2xl text-on-background hover:text-primary transition-colors">
+            sobre<span class="text-primary">.</span>
+        </a>
+        <button id="menu-toggle" class="group flex items-center gap-3 text-on-background hover:text-primary transition-colors">
+            <span class="font-label-mono text-sm uppercase tracking-widest hidden md:block">Menu</span>
+            <span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform duration-300">menu</span>
+        </button>
+    </nav>
+
+    <div id="full-menu" class="fixed inset-0 bg-surface-container-lowest/95 backdrop-blur-xl z-[100] transition-transform duration-500 translate-x-full flex flex-col md:flex-row">
+        <button id="close-menu" class="absolute top-6 right-6 md:right-12 text-on-background hover:text-primary transition-colors group p-2 z-50">
+             <span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-300">close</span>
+        </button>
         
-        <h1 class="font-headline-lg text-[40px] md:text-[64px] leading-[1.1] font-bold mb-8 tracking-tight">{{ page.title }}</h1>
-        <p class="text-xl md:text-2xl text-on-surface-variant font-body-md mb-12 leading-relaxed">{{ page.description }}</p>
-        
-        <div class="flex items-center justify-center gap-4 text-left">
-            <img src="{{ page.author_image }}" alt="{{ page.author }}" class="w-12 h-12 object-cover border border-outline-variant/30">
-            <div class="font-label-mono text-xs">
-                <p class="text-on-background uppercase tracking-widest font-bold">{{ page.author }}</p>
-                <p class="text-on-surface-variant mt-1">{{ page.date | date: "%d.%m.%Y" }}</p>
+        <!-- Left Side: Logo & Info -->
+        <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/30">
+            <div class="flex flex-col items-start max-w-lg">
+                <a href="editorial_horizontal.html" class="font-headline font-bold text-[64px] md:text-[120px] leading-none text-primary hover:opacity-80 transition-opacity">sobre.</a>
+                <p class="font-label-mono text-on-surface-variant mt-6 uppercase tracking-widest text-xs md:text-sm">Editorial Technical Blog</p>
+                
+                <div class="text-xs text-on-surface-variant font-label-mono flex flex-col gap-4 mt-12 md:mt-24">
+                    <p>© 2026 Editorial Technical Blog.</p>
+                    <div class="flex gap-6">
+                        <a href="#" class="hover:text-primary transition-colors">Termos</a>
+                        <a href="#" class="hover:text-primary transition-colors">Privacidade</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </header>
 
-    <!-- Imagem de Capa -->
-    <figure class="w-full max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
-        <div class="w-full h-[40vh] md:h-[70vh] border border-outline-variant/30 overflow-hidden relative">
-            <img src="{{ page.image }}" alt="Capa" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+        <!-- Right Side: Links -->
+        <div class="w-full md:w-1/2 h-1/2 md:h-full p-8 md:p-24 flex flex-col justify-center">
+            <ul class="flex flex-col gap-6 md:gap-12 font-display text-4xl md:text-7xl font-bold tracking-tight">
+                <li><a href="editorial_horizontal.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Início</a></li>
+                <li><a href="autores.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Autores</a></li>
+                <li><a href="manifesto.html" class="menu-link block hover:text-primary hover:translate-x-4 transition-all duration-300">Manifesto</a></li>
+            </ul>
         </div>
-    </figure>
+    </div>
 
-    <!-- O TEXTO DO ARQUIVO MARKDOWN (MD) ENTRA AQUI -->
-    <article class="article-content px-6 md:px-12 max-w-[700px] mx-auto text-lg md:text-xl text-on-surface leading-loose space-y-8">
-        {{ content }}
-    </article>
-</main>
+    <main class="relative z-10 pt-32 pb-24 min-h-screen">
+        
+        <!-- Article Header -->
+        <header class="px-6 md:px-12 max-w-[800px] mx-auto text-center mb-16">
+            <div class="inline-flex items-center gap-2 mb-8 font-label-mono text-primary uppercase tracking-widest text-xs">
+                <span class="w-8 h-[1px] bg-primary"></span> Economia
+            </div>
+            
+            <h1 class="font-headline-lg text-[40px] md:text-[64px] leading-[1.1] font-bold mb-8 tracking-tight">O impacto do dólar na nova economia digital.</h1>
+            <p class="text-xl md:text-2xl text-on-surface-variant font-body-md mb-12 leading-relaxed">Uma análise profunda sobre como as flutuações cambiais estão redefinindo o mercado de tecnologia e encarecendo infraestruturas.</p>
+            
+            <div class="flex items-center justify-center gap-4 text-left">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150" alt="Elena Silva" class="w-12 h-12 object-cover border border-outline-variant/30">
+                <div class="font-label-mono text-xs">
+                    <p class="text-on-background uppercase tracking-widest font-bold">Elena Silva</p>
+                    <p class="text-on-surface-variant mt-1">24.05.2026 <span class="mx-2">•</span> 8 min de leitura</p>
+                </div>
+            </div>
+        </header>
 
-<script>
-    // Lógica da barra de progresso
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        document.getElementById('reading-progress').style.width = scrolled + "%";
-    });
-</script>
+        <!-- Hero Image -->
+        <figure class="w-full max-w-[1200px] mx-auto px-6 md:px-12 mb-16">
+            <div class="w-full h-[40vh] md:h-[70vh] border border-outline-variant/30 overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&q=80&w=1600" alt="Gráficos do mercado em tela digital" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700">
+            </div>
+            <figcaption class="font-label-mono text-xs text-on-surface-variant mt-4 uppercase tracking-widest text-right">Créditos: Unsplash / Mercado Global</figcaption>
+        </figure>
+
+        <article class="article-content px-6 md:px-12 max-w-[700px] mx-auto text-lg md:text-xl text-on-surface leading-loose space-y-8">
+            <p>
+                Nas últimas duas décadas, o ecossistema global de tecnologia se acostumou com uma premissa perigosa: a de que infraestrutura de nuvem, APIs e poder computacional seriam sempre uma commodity barata e universalmente acessível. Operávamos sob o pressuposto de uma gravidade econômica estável, onde construir produtos digitais a partir de São Paulo, Berlim ou Bangalore custava essencialmente o mesmo, ignorando as nuances do câmbio.
+            </p>
+            
+            <p>
+                Mas a realidade bateu à porta. A recente disparada do dólar frente às moedas de mercados emergentes não é apenas um evento macroeconômico isolado; é um choque estrutural que está reescrevendo as regras do desenvolvimento de software e da viabilidade das startups.
+            </p>
+
+            <h2 class="font-headline-lg text-3xl md:text-4xl font-bold mt-16 mb-6 text-on-background tracking-tight">O Fim da Nuvem Infinita</h2>
+
+            <p>
+                Quando a Amazon Web Services (AWS) e plataformas similares democratizaram a infraestrutura, elas o fizeram em dólares. Hoje, uma empresa brasileira que escala seu banco de dados ou processa modelos de Inteligência Artificial paga um pedágio cambial invisível, porém brutal.
+            </p>
+
+            <blockquote class="border-l-2 border-primary pl-6 my-12 italic text-on-background text-2xl font-body-md leading-relaxed">
+                "Não estamos apenas escrevendo código menos otimizado; estamos subsidiando nossa ineficiência arquitetural com um câmbio desfavorável."
+            </blockquote>
+
+            <p>
+                Isso tem forçado Diretores de Tecnologia (CTOs) a adotarem o que chamo de <strong class="text-primary font-normal">Arquitetura de Sobrevivência</strong>. Onde antes imperava a cultura dos micro-serviços fragmentados (que multiplicam requisições e custos de rede), agora vemos um renascimento surpreendente dos sistemas monolíticos bem estruturados.
+            </p>
+
+            <h3 class="font-headline-lg text-2xl md:text-3xl font-bold mt-12 mb-4 text-on-background">A Resposta Local</h3>
+
+            <p>
+                A pressão cambial está gerando um efeito colateral fascinante: o incentivo para a criação de soluções locais de infraestrutura. Data centers regionais, alternativas de código aberto para APIs pagas (como modelos de IA <i>open-weights</i> hospedados internamente) e uma cultura de engenharia hiper-focada em performance.
+            </p>
+            
+            <p>
+                Se um loop mal escrito custava centavos antes, hoje ele custa reais significativos. A economia digital do futuro não pertencerá a quem tem mais poder de processamento, mas a quem processa com mais elegância e independência do fator cambial.
+            </p>
+
+            <div class="mt-20 pt-12 border-t border-outline-variant/30">
+                <div class="bg-surface-container-lowest border border-outline-variant/30 p-8 flex flex-col md:flex-row gap-8 items-center md:items-start group">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200" alt="Elena Silva" class="w-24 h-24 object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                    <div>
+                        <div class="font-label-mono text-xs uppercase tracking-widest text-primary mb-2">Sobre a autora</div>
+                        <h3 class="font-headline text-2xl font-bold mb-3 text-on-background">Elena Silva</h3>
+                        <p class="text-on-surface-variant text-base">Economista focada em infraestrutura digital. Escreve sobre como as flutuações cambiais afetam arquiteturas em nuvem e startups.</p>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+        
+        <!-- Next Article Suggestion -->
+        <aside class="px-6 md:px-12 max-w-[1200px] mx-auto mt-24">
+            <div class="inline-flex items-center gap-2 mb-8 font-label-mono text-secondary uppercase tracking-widest text-xs">
+                <span class="w-8 h-[1px] bg-secondary"></span> Leia a seguir
+            </div>
+            
+            <a href="#" class="block group border border-outline-variant/30 bg-surface-container-lowest/80 p-8 md:p-16 hover:bg-surface-variant/20 transition-colors">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div class="max-w-2xl">
+                        <div class="font-label-mono text-on-surface-variant text-xs mb-4">Sociedade • 18.05.2026</div>
+                        <h2 class="font-headline-lg text-[32px] md:text-[48px] leading-[1.1] font-bold text-on-background group-hover:text-secondary transition-colors tracking-tight">Automação e os mitos do desemprego.</h2>
+                    </div>
+                    <div class="font-label-mono text-sm uppercase tracking-widest text-secondary flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                        Explorar <span class="material-symbols-outlined">arrow_forward</span>
+                    </div>
+                </div>
+            </a>
+        </aside>
+    </main>
+
+    <script>
+        // Interactive Background
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+        });
+
+        // Fullscreen Menu Toggle
+        const fullMenu = document.getElementById('full-menu');
+        const menuToggle = document.getElementById('menu-toggle');
+        const closeMenu = document.getElementById('close-menu');
+
+        menuToggle.addEventListener('click', () => {
+            fullMenu.classList.remove('translate-x-full');
+            fullMenu.classList.add('translate-x-0');
+        });
+        closeMenu.addEventListener('click', () => {
+            fullMenu.classList.add('translate-x-full');
+            fullMenu.classList.remove('translate-x-0');
+        });
+
+        // Reading Progress Bar Logic
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('reading-progress').style.width = scrolled + "%";
+        });
+    </script>
+</body>
+</html>
