@@ -153,12 +153,11 @@ layout: null
         .supercards-frame {
             width: 100%;
             min-height: calc(100vh - 2rem);
-            border: 1px solid color-mix(in srgb, var(--on-surface-var) 38%, transparent);
-            background:
-                linear-gradient(135deg, color-mix(in srgb, var(--surface-lowest) 92%, transparent), var(--surface));
-            overflow: hidden;
+            border: 0;
+            background: transparent;
+            overflow: visible;
             position: relative;
-            box-shadow: 0 30px 80px rgb(0 0 0 / 0.18);
+            box-shadow: none;
         }
 
         .supercards-header {
@@ -211,7 +210,7 @@ layout: null
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
-            padding: 5.4rem 1.25rem 5rem;
+            padding: 2.8rem 1.25rem 5rem;
         }
 
         .supercard-item {
@@ -388,7 +387,7 @@ layout: null
             }
 
             .supercards-carousel {
-                padding: 6rem 2rem 5.5rem;
+                padding: 3.4rem 2rem 5.5rem;
                 gap: 1.5rem;
             }
 
@@ -424,25 +423,75 @@ layout: null
         }
 
         @media (max-width: 767px) {
+            html.snap-y {
+                scroll-snap-type: none !important;
+            }
+
+            .supercards-section {
+                min-height: auto;
+                padding-block: 5.5rem 3.5rem;
+                align-items: flex-start;
+            }
+
+            .supercards-frame {
+                min-height: auto;
+                overflow: visible;
+            }
+
+            .supercards-header {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                padding-inline: 1rem;
+                margin-bottom: 1rem;
+            }
+
             .supercards-count {
                 display: none;
             }
 
             .supercards-carousel {
-                padding-inline: 1rem;
+                height: auto;
+                min-height: auto;
+                align-items: stretch;
+                padding: 0 1rem 4.75rem;
+                gap: 1rem;
+                overflow-x: auto;
+                overflow-y: visible;
+                -webkit-overflow-scrolling: touch;
+                scroll-padding-inline: 1rem;
             }
 
             .supercard-item {
-                flex-basis: 86vw;
+                flex-basis: 84vw;
+                min-height: auto;
+                height: auto;
+                grid-template-rows: auto 1fr;
+            }
+
+            .supercard-media {
+                min-height: 230px;
+                height: 230px;
+            }
+
+            .supercard-copy {
+                min-height: 330px;
             }
 
             .supercard-title {
-                font-size: clamp(2.25rem, 12vw, 3.45rem);
+                font-size: clamp(2.05rem, 10.8vw, 3.15rem);
+                line-height: 0.92;
             }
 
             .supercard-excerpt {
-                font-size: 0.9rem;
-                line-height: 1.35;
+                font-size: 0.88rem;
+                line-height: 1.32;
+            }
+
+            .supercards-nav {
+                right: 1rem;
+                bottom: 0.75rem;
             }
         }
 
@@ -492,7 +541,7 @@ layout: null
 
     <!-- Logo viaja pela tela (Typewriter) -->
     <div id="typewriter-wrapper" class="font-display font-bold lowercase text-on-background">
-        <span id="typewriter-logo" class="typewriter-cursor text-left">so</span>
+        <span id="typewriter-logo" class="typewriter-cursor text-left">sobre</span>
     </div>
 
     <!-- HEADER GLOBAL FIXO -->
@@ -500,12 +549,12 @@ layout: null
         
         <div class="flex items-center gap-6 md:gap-10 pointer-events-auto">
             <!-- Botão de Tema -->
-            <button id="theme-toggle" class="flex items-center text-on-surface-variant hover:text-primary transition-colors group">
-                <span class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform" id="theme-icon">light_mode</span>
+            <button id="theme-toggle" data-theme-toggle class="flex items-center text-on-surface-variant hover:text-primary transition-colors group" aria-label="Alternar modo claro/escuro">
+                <span class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform" data-theme-icon id="theme-icon">light_mode</span>
             </button>
 
             <!-- Botão Menu -->
-            <button id="menu-open" class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group">
+            <button id="menu-open" data-menu-open class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group" aria-label="Abrir menu">
                 <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
                 <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
             </button>
@@ -521,11 +570,6 @@ layout: null
     <!-- PÁGINA 2: Supercards editoriais -->
     <section id="super-card" class="supercards-section snap-start relative z-10 w-full min-h-screen flex items-center justify-center">
         <div class="supercards-frame">
-
-            <div class="supercards-header">
-                <div class="supercards-kicker">Últimos ensaios</div>
-                <div class="supercards-count">seleção editorial</div>
-            </div>
 
             <div id="carousel" class="supercards-carousel hide-scrollbar">
                 {% for post in site.posts limit:3 %}
@@ -587,7 +631,7 @@ layout: null
     </section>
 
     <!-- PÁGINA 3: Acervo (Sem snap para navegação livre) -->
-    <section class="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 min-h-screen">
+    <section id="acervo" class="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 min-h-screen scroll-mt-28">
         <div class="flex flex-col items-start text-left mb-16 border-b border-outline-variant/30 pb-6">
             <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2 text-on-background text-left">Acervo.</h2>
             <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-xs md:text-sm text-left">O arquivo completo de publicações</p>
@@ -620,9 +664,23 @@ layout: null
     </section>
 
     <!-- Rodapé -->
-    <footer id="main-footer" class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 h-24 px-6 md:px-12 flex items-center justify-between transition-colors">
-        <div class="w-24"></div> <!-- Placeholder invisível para o logo typewriter que pousará aqui -->
-        <p class="font-label-mono text-xs text-on-surface-variant">© 2026 Editorial. Todos os direitos reservados.</p>
+    <footer id="main-footer" class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 h-24 px-6 md:px-12 flex items-center justify-between gap-6 transition-colors">
+        <div class="w-24 shrink-0"></div> <!-- Placeholder invisível para o logo typewriter que pousará aqui -->
+
+        <p class="font-label-mono text-xs text-on-surface-variant text-left md:text-center">
+            © 2026 Editorial. Todos os direitos reservados.
+        </p>
+
+        <div class="flex items-center gap-5 md:gap-8 shrink-0">
+            <button data-theme-toggle class="flex items-center text-on-surface-variant hover:text-primary transition-colors group" aria-label="Alternar modo claro/escuro">
+                <span class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform" data-theme-icon>light_mode</span>
+            </button>
+
+            <button data-menu-open class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group" aria-label="Abrir menu">
+                <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
+                <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
+            </button>
+        </div>
     </footer>
 
     <!-- OVERLAY MENU -->
@@ -644,6 +702,7 @@ layout: null
                 <nav>
                     <ul class="flex flex-col gap-6 md:gap-8 font-headline text-3xl md:text-5xl font-bold">
                         <li><a href="{{ site.baseurl }}/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Início</a></li>
+                        <li><a href="{{ site.baseurl }}/#acervo" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Acervo</a></li>
                         <li><a href="{{ site.baseurl }}/autores/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Autores</a></li>
                         <li><a href="{{ site.baseurl }}/manifesto/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Manifesto</a></li>
                     </ul>
@@ -655,27 +714,34 @@ layout: null
     <!-- Scripts -->
     <script>
         // --- TEMA CLARO / ESCURO (TOGGLE) ---
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
+        const themeToggles = document.querySelectorAll('[data-theme-toggle]');
+        const themeIcons = document.querySelectorAll('[data-theme-icon]');
         const htmlElement = document.documentElement;
+
+        function updateThemeIcons() {
+            const iconName = htmlElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+            themeIcons.forEach(icon => icon.textContent = iconName);
+        }
 
         // Inicializa pegando a preferência do usuário salva (ou do sistema)
         if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
             htmlElement.classList.remove('dark');
-            themeIcon.textContent = 'dark_mode'; // Lua, sugerindo mudar pro escuro
-        } else {
-            themeIcon.textContent = 'light_mode'; // Sol, sugerindo mudar pro claro
         }
 
-        themeToggle.addEventListener('click', () => {
-            htmlElement.classList.toggle('dark');
-            if (htmlElement.classList.contains('dark')) {
-                localStorage.setItem('theme', 'dark');
-                themeIcon.textContent = 'light_mode';
-            } else {
-                localStorage.setItem('theme', 'light');
-                themeIcon.textContent = 'dark_mode';
-            }
+        updateThemeIcons();
+
+        themeToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+
+                if (htmlElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+
+                updateThemeIcons();
+            });
         });
 
         // Fundo interativo
@@ -686,34 +752,48 @@ layout: null
 
         // Typewriter Effect
         document.addEventListener('DOMContentLoaded', () => {
-            const phrases = ['sobre o dólar', 'sobre o futuro', 'sobre a arte', 'sobre o código', 'sobre.'];
-            let currentPhraseIndex = 0, isDeleting = false, currentText = '';
+            const baseText = 'sobre';
+            const subtitles = [' o dólar', ' o futuro', ' a arte', ' o código', '.'];
+            let currentSubtitleIndex = 0;
+            let isDeleting = false;
+            let currentSubtitle = '';
             const logoElement = document.getElementById('typewriter-logo');
             let typingSpeed = 100;
 
             function type() {
                 if (!logoElement) return;
-                const fullText = phrases[currentPhraseIndex];
-                
+
+                const fullSubtitle = subtitles[currentSubtitleIndex];
+
                 if (isDeleting) {
-                    currentText = fullText.substring(0, currentText.length - 1);
+                    currentSubtitle = fullSubtitle.substring(0, currentSubtitle.length - 1);
                     typingSpeed = 50;
                 } else {
-                    currentText = fullText.substring(0, currentText.length + 1);
+                    currentSubtitle = fullSubtitle.substring(0, currentSubtitle.length + 1);
                     typingSpeed = 100;
                 }
-                
-                logoElement.textContent = currentText;
+
+                // Mantém "sobre" fixo e apaga apenas o complemento.
+                logoElement.textContent = baseText + currentSubtitle;
+
                 let delay = typingSpeed;
-                
-                if (!isDeleting && currentText === fullText) {
-                    delay = 2000; isDeleting = true;
-                } else if (isDeleting && currentText === '') {
-                    isDeleting = false; currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length; delay = 500;
+
+                if (!isDeleting && currentSubtitle === fullSubtitle) {
+                    delay = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && currentSubtitle === '') {
+                    isDeleting = false;
+                    currentSubtitleIndex = (currentSubtitleIndex + 1) % subtitles.length;
+                    delay = 500;
                 }
+
                 setTimeout(type, delay);
             }
-            if (logoElement) setTimeout(type, 500);
+
+            if (logoElement) {
+                logoElement.textContent = baseText;
+                setTimeout(type, 500);
+            }
         });
 
         // --- LÓGICA DE TRANSIÇÃO DO LOGO (HERO -> HEADER -> FOOTER) ---
@@ -785,15 +865,18 @@ layout: null
         }
 
         // Menu Toggle
-        const menuOpen = document.getElementById('menu-open');
+        const menuOpenButtons = document.querySelectorAll('[data-menu-open]');
         const menuClose = document.getElementById('menu-close');
         const menuOverlay = document.getElementById('menu-overlay');
 
-        if (menuOpen && menuClose && menuOverlay) {
-            menuOpen.addEventListener('click', () => {
-                menuOverlay.classList.remove('translate-x-full');
-                document.body.style.overflow = 'hidden'; 
+        if (menuClose && menuOverlay) {
+            menuOpenButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    menuOverlay.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden';
+                });
             });
+
             menuClose.addEventListener('click', () => {
                 menuOverlay.classList.add('translate-x-full');
                 document.body.style.overflow = '';
