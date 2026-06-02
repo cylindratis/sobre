@@ -106,6 +106,13 @@ layout: null
         }
         /* Tamanhos Iniciais Responsivos */
         @media (min-width: 640px) { #typewriter-wrapper { font-size: 96px; } }
+
+
+        .super-card-shell,
+        .super-post-card {
+            border-color: color-mix(in srgb, var(--on-surface-var) 52%, transparent) !important;
+        }
+
         @media (min-width: 768px) { #typewriter-wrapper { font-size: 140px; left: 3rem; /* md:px-12 */ } }
         @media (min-width: 1024px) { #typewriter-wrapper { font-size: 180px; } }
 
@@ -171,27 +178,27 @@ layout: null
 
         .super-post-title {
             font-family: 'Junicode Condensed', serif;
-            font-size: clamp(3rem, 8vw, 7.6rem);
-            line-height: 0.82;
-            letter-spacing: -0.065em;
+            font-size: clamp(2.25rem, 5.3vw, 5.35rem);
+            line-height: 0.9;
+            letter-spacing: -0.055em;
             font-weight: 800;
             color: var(--on-bg);
-            max-width: 14ch;
-            margin-bottom: 1rem;
+            max-width: 18ch;
+            margin-bottom: 0.8rem;
         }
 
         .super-post-excerpt {
             font-family: 'Geist', sans-serif;
-            font-size: clamp(0.95rem, 1.5vw, 1.18rem);
-            line-height: 1.25;
+            font-size: clamp(0.86rem, 1.15vw, 1.02rem);
+            line-height: 1.2;
             color: var(--on-bg);
-            max-width: 72ch;
-            margin-bottom: 0.55rem;
+            max-width: 76ch;
+            margin-bottom: 0.45rem;
         }
 
         .super-post-more {
             font-family: 'Junicode Condensed', serif;
-            font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+            font-size: clamp(0.88rem, 1.05vw, 1.05rem);
             line-height: 1;
             font-style: italic;
             font-weight: 700;
@@ -200,12 +207,12 @@ layout: null
             text-decoration-thickness: 1px;
             text-underline-offset: 2px;
             width: fit-content;
-            margin-bottom: 0.85rem;
+            margin-bottom: 0.65rem;
         }
 
         .super-post-meta {
             font-family: 'Junicode Condensed', serif;
-            font-size: clamp(1rem, 1.45vw, 1.22rem);
+            font-size: clamp(0.9rem, 1.05vw, 1.05rem);
             line-height: 1.05;
             font-style: italic;
             font-weight: 700;
@@ -228,13 +235,18 @@ layout: null
 
         @media (max-width: 767px) {
             .super-post-title {
-                font-size: clamp(2.8rem, 16vw, 4.4rem);
-                line-height: 0.86;
-                letter-spacing: -0.06em;
+                font-size: clamp(2.05rem, 11.5vw, 3.35rem);
+                line-height: 0.9;
+                letter-spacing: -0.05em;
             }
 
             .super-post-excerpt {
-                font-size: 0.94rem;
+                font-size: 0.84rem;
+                line-height: 1.18;
+            }
+
+            .super-post-text {
+                padding: 1.1rem 1.25rem 1.4rem;
             }
         }
 
@@ -312,7 +324,7 @@ layout: null
     <!-- PÁGINA 2: O Super Card (Rolada Direta ativada) -->
     <section id="super-card" class="snap-start relative z-10 w-full min-h-screen p-4 md:p-8 flex items-center justify-center">
         <!-- O Super Card emoldurado -->
-        <div class="super-card-shell w-full bg-surface-container-lowest border border-outline-variant/40 flex flex-col relative overflow-hidden shadow-2xl pt-20 md:pt-24 transition-colors">
+        <div class="super-card-shell w-full bg-surface-container-lowest border flex flex-col relative overflow-hidden shadow-2xl pt-20 md:pt-24 transition-colors">
 
             <div class="flex-1 flex flex-col justify-center relative">
 
@@ -324,7 +336,7 @@ layout: null
                 <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar w-full h-[72vh] md:h-[70vh] items-center px-4 md:px-10 gap-6 md:gap-12 pb-8 mt-4">
 
                     {% for post in site.posts limit:3 %}
-                    <article class="super-post-card snap-center shrink-0 w-[88vw] md:w-[72vw] lg:w-[64vw] h-full border border-outline-variant/30 group relative overflow-hidden transition-colors">
+                    <article class="super-post-card snap-center shrink-0 w-[88vw] md:w-[72vw] lg:w-[64vw] h-full border group relative overflow-hidden transition-colors">
 
                         <!-- Imagem do Post -->
                         <a href="{{ site.baseurl }}{{ post.url }}" class="super-post-image block w-full h-full">
@@ -338,7 +350,7 @@ layout: null
                             </h2>
 
                             <p class="super-post-excerpt">
-                                {{ post.excerpt | strip_html | truncatewords: 34 }}
+                                {{ post.excerpt | strip_html | truncatewords: 26 }}
                             </p>
 
                             <a href="{{ site.baseurl }}{{ post.url }}" class="super-post-more">
