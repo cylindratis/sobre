@@ -143,112 +143,309 @@ layout: null
 
 
 
-        /* Super Card em formato editorial: imagem em cima, texto embaixo */
-        .super-card-shell {
+
+
+        /* Supercards em estilo editorial horizontal */
+        .supercards-section {
+            padding-inline: 1.25rem;
+        }
+
+        .supercards-frame {
+            width: 100%;
             min-height: calc(100vh - 2rem);
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 38%, transparent);
+            background:
+                linear-gradient(135deg, color-mix(in srgb, var(--surface-lowest) 92%, transparent), var(--surface));
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 80px rgb(0 0 0 / 0.18);
         }
 
-        .super-post-card {
+        .supercards-header {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            pointer-events: none;
+        }
+
+        .supercards-kicker {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--on-surface-var);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .supercards-kicker::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 999px;
+            background: var(--primary);
+            box-shadow: 0 0 0 0.3rem color-mix(in srgb, var(--primary) 13%, transparent);
+        }
+
+        .supercards-count {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: color-mix(in srgb, var(--on-surface-var) 78%, transparent);
+        }
+
+        .supercards-carousel {
+            height: 100%;
+            min-height: calc(100vh - 2rem);
+            display: flex;
+            align-items: stretch;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 5.4rem 1.25rem 5rem;
+        }
+
+        .supercard-item {
+            scroll-snap-align: center;
+            flex: 0 0 min(86vw, 1120px);
+            min-height: 68vh;
             display: grid;
-            grid-template-rows: 42% 58%;
+            grid-template-columns: minmax(0, 1fr);
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 34%, transparent);
             background: var(--surface);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.45s ease, border-color 0.3s ease, background-color 0.3s ease;
         }
 
-        .super-post-image {
+        .supercard-item:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--primary) 65%, transparent);
+        }
+
+        .supercard-media {
+            min-height: 36vh;
             position: relative;
             overflow: hidden;
+            background: var(--surface-container-lowest);
         }
 
-        .super-post-image::after {
-            content: "";
+        .supercard-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(1);
+            opacity: 0.82;
+            transition: transform 0.8s ease, filter 0.8s ease, opacity 0.8s ease;
+        }
+
+        .supercard-item:hover .supercard-media img {
+            transform: scale(1.045);
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        .supercard-number {
             position: absolute;
-            inset: 0;
-            pointer-events: none;
-            box-shadow: inset 0 -24px 36px color-mix(in srgb, var(--surface) 70%, transparent);
+            left: 1.25rem;
+            bottom: 1.1rem;
+            z-index: 2;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.16em;
+            color: #fff;
+            background: rgb(0 0 0 / 0.38);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.45rem 0.65rem;
         }
 
-        .super-post-text {
-            padding: 1.4rem 1.6rem 1.8rem;
+        .supercard-copy {
+            padding: 1.5rem 1.45rem 1.65rem;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            text-align: left;
-            background: var(--surface);
+            justify-content: space-between;
+            gap: 1.25rem;
         }
 
-        .super-post-title {
+        .supercard-date {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--on-surface-var);
+            margin-bottom: 0.9rem;
+        }
+
+        .supercard-title {
             font-family: 'Junicode Condensed', serif;
-            font-size: clamp(2.25rem, 5.3vw, 5.35rem);
+            font-size: clamp(2.35rem, 5.6vw, 5.8rem);
             line-height: 0.9;
             letter-spacing: -0.055em;
             font-weight: 800;
             color: var(--on-bg);
-            max-width: 18ch;
-            margin-bottom: 0.8rem;
+            max-width: 15ch;
+            margin-bottom: 0.95rem;
         }
 
-        .super-post-excerpt {
+        .supercard-excerpt {
             font-family: 'Geist', sans-serif;
-            font-size: clamp(0.86rem, 1.15vw, 1.02rem);
-            line-height: 1.2;
-            color: var(--on-bg);
-            max-width: 76ch;
-            margin-bottom: 0.45rem;
+            font-size: clamp(0.92rem, 1.05vw, 1.08rem);
+            line-height: 1.45;
+            color: var(--on-surface-var);
+            max-width: 58ch;
         }
 
-        .super-post-more {
-            font-family: 'Junicode Condensed', serif;
-            font-size: clamp(0.88rem, 1.05vw, 1.05rem);
-            line-height: 1;
-            font-style: italic;
-            font-weight: 700;
-            color: var(--on-bg);
-            text-decoration: underline;
-            text-decoration-thickness: 1px;
-            text-underline-offset: 2px;
-            width: fit-content;
-            margin-bottom: 0.65rem;
+        .supercard-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.85rem;
         }
 
-        .super-post-meta {
+        .supercard-author {
             font-family: 'Junicode Condensed', serif;
-            font-size: clamp(0.9rem, 1.05vw, 1.05rem);
+            font-size: 1rem;
             line-height: 1.05;
             font-style: italic;
             font-weight: 700;
             color: var(--on-bg);
         }
 
+        .supercard-link {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--on-bg);
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 34%, transparent);
+            padding: 0.8rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            width: fit-content;
+            transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
+        }
+
+        .supercard-link:hover {
+            color: var(--bg);
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .supercards-nav {
+            position: absolute;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            z-index: 30;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .supercards-nav button {
+            width: 2.85rem;
+            height: 2.85rem;
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 36%, transparent);
+            background: color-mix(in srgb, var(--surface) 82%, transparent);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            color: var(--on-bg);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .supercards-nav button:hover {
+            background: var(--surface-container-high);
+            border-color: color-mix(in srgb, var(--primary) 65%, transparent);
+            transform: translateY(-2px);
+        }
+
         @media (min-width: 768px) {
-            .super-card-shell {
+            .supercards-section {
+                padding-inline: 2rem;
+            }
+
+            .supercards-frame,
+            .supercards-carousel {
                 min-height: calc(100vh - 4rem);
             }
 
-            .super-post-card {
-                grid-template-rows: 38% 62%;
+            .supercards-header {
+                top: 1.6rem;
+                left: 2rem;
+                right: 2rem;
             }
 
-            .super-post-text {
-                padding: 1.5rem 2rem 2rem;
+            .supercards-carousel {
+                padding: 6rem 2rem 5.5rem;
+                gap: 1.5rem;
+            }
+
+            .supercard-item {
+                grid-template-columns: minmax(0, 0.94fr) minmax(380px, 0.76fr);
+                min-height: 64vh;
+            }
+
+            .supercard-media {
+                min-height: auto;
+                height: 100%;
+            }
+
+            .supercard-copy {
+                padding: 2rem 2.2rem;
+            }
+
+            .supercard-footer {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: end;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .supercard-title {
+                font-size: clamp(3.6rem, 4.9vw, 5.8rem);
+            }
+
+            .supercard-copy {
+                padding: 2.4rem 2.6rem;
             }
         }
 
         @media (max-width: 767px) {
-            .super-post-title {
-                font-size: clamp(2.05rem, 11.5vw, 3.35rem);
-                line-height: 0.9;
-                letter-spacing: -0.05em;
+            .supercards-count {
+                display: none;
             }
 
-            .super-post-excerpt {
-                font-size: 0.84rem;
-                line-height: 1.18;
+            .supercards-carousel {
+                padding-inline: 1rem;
             }
 
-            .super-post-text {
-                padding: 1.1rem 1.25rem 1.4rem;
+            .supercard-item {
+                flex-basis: 86vw;
+            }
+
+            .supercard-title {
+                font-size: clamp(2.25rem, 12vw, 3.45rem);
+            }
+
+            .supercard-excerpt {
+                font-size: 0.9rem;
+                line-height: 1.35;
             }
         }
+
 
         /* Tema Transições Globais */
         * { transition: background-color 0.3s ease, border-color 0.3s ease; }
@@ -321,82 +518,79 @@ layout: null
         <!-- Explorar removido a pedido -->
     </section>
 
-    <!-- PÁGINA 2: O Super Card (Rolada Direta ativada) -->
-    <section id="super-card" class="snap-start relative z-10 w-full min-h-screen p-4 md:p-8 flex items-center justify-center">
-        <!-- O Super Card emoldurado -->
-        <div class="super-card-shell w-full bg-surface-container-lowest border flex flex-col relative overflow-hidden shadow-2xl pt-20 md:pt-24 transition-colors">
+    <!-- PÁGINA 2: Supercards editoriais -->
+    <section id="super-card" class="supercards-section snap-start relative z-10 w-full min-h-screen flex items-center justify-center">
+        <div class="supercards-frame">
 
-            <div class="flex-1 flex flex-col justify-center relative">
+            <div class="supercards-header">
+                <div class="supercards-kicker">Últimos ensaios</div>
+                <div class="supercards-count">seleção editorial</div>
+            </div>
 
-                <div class="absolute top-4 left-6 md:left-10 font-label-mono text-xs uppercase tracking-widest text-outline-variant flex items-center gap-2 z-20">
-                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> Últimos Ensaios
-                </div>
+            <div id="carousel" class="supercards-carousel hide-scrollbar">
+                {% for post in site.posts limit:3 %}
+                <article class="supercard-item group">
+                    <a href="{{ site.baseurl }}{{ post.url }}" class="supercard-media">
+                        <img src="{% if post.image %}{{ post.image }}{% else %}https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1400{% endif %}" alt="{{ post.title }}">
+                        <span class="supercard-number">0{{ forloop.index }}</span>
+                    </a>
 
-                <!-- Lista rolável do Carrossel -->
-                <div id="carousel" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar w-full h-[72vh] md:h-[70vh] items-center px-4 md:px-10 gap-6 md:gap-12 pb-8 mt-4">
+                    <div class="supercard-copy">
+                        <div>
+                            <div class="supercard-date">
+                                {{ post.date | date: "%d.%m.%Y" }}
+                            </div>
 
-                    {% for post in site.posts limit:3 %}
-                    <article class="super-post-card snap-center shrink-0 w-[88vw] md:w-[72vw] lg:w-[64vw] h-full border group relative overflow-hidden transition-colors">
-
-                        <!-- Imagem do Post -->
-                        <a href="{{ site.baseurl }}{{ post.url }}" class="super-post-image block w-full h-full">
-                            <img src="{% if post.image %}{{ post.image }}{% else %}https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1200{% endif %}" alt="{{ post.title }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
-                        </a>
-
-                        <!-- Texto do Post -->
-                        <div class="super-post-text">
-                            <h2 class="super-post-title group-hover:text-primary transition-colors">
+                            <h2 class="supercard-title">
                                 <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
                             </h2>
 
-                            <p class="super-post-excerpt">
-                                {{ post.excerpt | strip_html | truncatewords: 26 }}
+                            <p class="supercard-excerpt">
+                                {{ post.excerpt | strip_html | truncatewords: 24 }}
                             </p>
-
-                            <a href="{{ site.baseurl }}{{ post.url }}" class="super-post-more">
-                                ler mais...
-                            </a>
-
-                            <div class="super-post-meta">
-                                {% if post.author %}
-                                <p>Por {{ post.author }}</p>
-                                {% endif %}
-                                <p>em {{ post.date | date: "%d.%m.%Y" }}</p>
-                            </div>
                         </div>
-                    </article>
-                    {% endfor %}
 
-                    <!-- Fallback if no posts exist -->
-                    {% if site.posts.size == 0 %}
-                    <div class="snap-center shrink-0 w-[88vw] md:w-[64vw] h-full p-10 border border-outline-variant/30 flex items-center justify-center text-on-surface-variant font-label-mono text-sm">
-                        Nenhum ensaio publicado ainda.
+                        <div class="supercard-footer">
+                            <div class="supercard-author">
+                                {% if post.author %}
+                                Por {{ post.author }}
+                                {% else %}
+                                Editorial sobre.
+                                {% endif %}
+                            </div>
+
+                            <a href="{{ site.baseurl }}{{ post.url }}" class="supercard-link">
+                                Ler ensaio <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+                            </a>
+                        </div>
                     </div>
-                    {% endif %}
+                </article>
+                {% endfor %}
 
+                {% if site.posts.size == 0 %}
+                <div class="supercard-item flex items-center justify-center text-on-surface-variant font-label-mono text-sm">
+                    Nenhum ensaio publicado ainda.
                 </div>
-
-                <!-- Controles do Carrossel -->
-                <div class="absolute bottom-6 right-6 md:right-10 flex gap-4">
-                    <button id="btn-prev" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-background z-10 bg-surface">
-                        <span class="material-symbols-outlined">arrow_left</span>
-                    </button>
-                    <button id="btn-next" class="w-12 h-12 border border-outline-variant/50 flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-background z-10 bg-surface">
-                        <span class="material-symbols-outlined">arrow_right</span>
-                    </button>
-                </div>
-
+                {% endif %}
             </div>
+
+            <div class="supercards-nav">
+                <button id="btn-prev" aria-label="Ensaio anterior">
+                    <span class="material-symbols-outlined">arrow_left</span>
+                </button>
+                <button id="btn-next" aria-label="Próximo ensaio">
+                    <span class="material-symbols-outlined">arrow_right</span>
+                </button>
+            </div>
+
         </div>
     </section>
 
     <!-- PÁGINA 3: Acervo (Sem snap para navegação livre) -->
     <section class="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 min-h-screen">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-outline-variant/30 pb-6">
-            <div>
-                <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2 text-on-background">Acervo.</h2>
-                <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-xs md:text-sm">O arquivo completo de publicações</p>
-            </div>
+        <div class="flex flex-col items-start text-left mb-16 border-b border-outline-variant/30 pb-6">
+            <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2 text-on-background text-left">Acervo.</h2>
+            <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-xs md:text-sm text-left">O arquivo completo de publicações</p>
         </div>
 
         <!-- Grade de Quadros -->
