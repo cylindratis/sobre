@@ -1,7 +1,7 @@
 ---
-name: Adriane Borges
-title: Adriane Borges
-role: Editoria
+name: Sofia G. Sulzbach
+title: Sofia G. Sulzbach
+role: 
 order: 1
 description: "Responsável por projetos editoriais, identidade visual e curadoria de publicações."
 short_bio: "Responsável por projetos editoriais, identidade visual e curadoria de publicações."
