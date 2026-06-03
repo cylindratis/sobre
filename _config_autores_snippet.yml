@@ -1,0 +1,5 @@
+# Atualize o _config.yml com este trecho.
+# Como os autores agora aparecem apenas em cards, não haverá páginas individuais.
+collections:
+  authors:
+    output: false

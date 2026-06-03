@@ -1,0 +1,547 @@
+---
+layout: null
+title: Sobre nós
+---
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark scroll-smooth">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sobre nós - sobre.</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+    <style>
+        @font-face {
+            font-family: 'Junicode Condensed';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Roman.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+            font-stretch: condensed;
+        }
+
+        @font-face {
+            font-family: 'Junicode Condensed';
+            src: url('{{ site.baseurl }}/assets/JunicodeVF-Italic.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: italic;
+            font-display: swap;
+            font-stretch: condensed;
+        }
+
+        :root {
+            --bg: #f8f9fa;
+            --surface: #ffffff;
+            --surface-lowest: #f1f3f4;
+            --surface-high: #e8eaed;
+            --primary: #1a1a1a;
+            --secondary: #d94a1e;
+            --on-bg: #111111;
+            --on-surface-var: #5f6368;
+            --outline-var: #dadce0;
+        }
+
+        .dark {
+            --bg: #131316;
+            --surface: #131316;
+            --surface-lowest: #0e0e11;
+            --surface-high: #2a2a2d;
+            --primary: #c8c6c8;
+            --secondary: #ffb59d;
+            --on-bg: #e4e1e6;
+            --on-surface-var: #c7c6ca;
+            --outline-var: #46464a;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: var(--bg);
+            color: var(--on-bg);
+            font-family: 'Geist', sans-serif;
+        }
+
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, transform 0.35s ease;
+        }
+
+        .font-junicode { font-family: 'Junicode Condensed', serif; }
+        .font-label-mono { font-family: 'Geist Mono', monospace; }
+
+        .about-shell {
+            width: 100%;
+            max-width: 1480px;
+            margin: 0 auto;
+            padding-inline: 1.5rem;
+        }
+
+        .about-hero {
+            min-height: 74vh;
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: end;
+            gap: 3rem;
+            padding-top: 9rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid color-mix(in srgb, var(--on-surface-var) 28%, transparent);
+        }
+
+        .about-eyebrow {
+            font-family: 'Geist Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 0.72rem;
+            color: var(--on-surface-var);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-eyebrow::before {
+            content: "";
+            width: 2.4rem;
+            height: 1px;
+            background: var(--primary);
+        }
+
+        .about-title {
+            font-size: clamp(4.4rem, 15vw, 15rem);
+            line-height: 0.78;
+            letter-spacing: -0.085em;
+            font-weight: 850;
+            color: var(--on-bg);
+        }
+
+        .manifesto-card {
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 30%, transparent);
+            background: var(--surface-lowest);
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        .manifesto-card p {
+            color: var(--on-surface-var);
+            font-size: clamp(1.05rem, 1.8vw, 1.45rem);
+            line-height: 1.42;
+        }
+
+        .team-toolbar {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-field {
+            width: 100%;
+            background: var(--surface-lowest);
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 32%, transparent);
+            color: var(--on-bg);
+            padding: 1rem;
+            outline: none;
+        }
+
+        .team-field:focus {
+            border-color: var(--primary);
+        }
+
+        .authors-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        .author-card {
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 30%, transparent);
+            background: var(--surface-lowest);
+            padding: clamp(1.25rem, 3vw, 2rem);
+            min-height: 19rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .author-card:hover {
+            transform: translateY(-4px);
+            border-color: color-mix(in srgb, var(--primary) 62%, transparent);
+        }
+
+        .author-role {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .author-name {
+            font-size: clamp(2.9rem, 7vw, 5.6rem);
+            line-height: 0.84;
+            letter-spacing: -0.065em;
+            font-weight: 850;
+            color: var(--on-bg);
+            max-width: 10ch;
+        }
+
+        .author-description {
+            color: var(--on-surface-var);
+            font-size: 0.98rem;
+            line-height: 1.45;
+            max-width: 36rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 2.6rem;
+            height: 2.6rem;
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 32%, transparent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--on-bg);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg);
+        }
+
+        .empty-state {
+            border: 1px solid color-mix(in srgb, var(--on-surface-var) 28%, transparent);
+            background: var(--surface-lowest);
+            padding: 2rem;
+            color: var(--on-surface-var);
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        @media (min-width: 768px) {
+            .about-shell { padding-inline: 3rem; }
+
+            .about-hero {
+                grid-template-columns: minmax(0, 0.98fr) minmax(20rem, 0.58fr);
+                align-items: end;
+                padding-top: 10rem;
+                padding-bottom: 5rem;
+            }
+
+            .team-toolbar {
+                grid-template-columns: 1fr 280px;
+            }
+
+            .authors-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .authors-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "var(--bg)",
+                        surface: "var(--surface)",
+                        "surface-container-lowest": "var(--surface-lowest)",
+                        "surface-container-high": "var(--surface-high)",
+                        primary: "var(--primary)",
+                        secondary: "var(--secondary)",
+                        "on-background": "var(--on-bg)",
+                        "on-surface-variant": "var(--on-surface-var)",
+                        "outline-variant": "var(--outline-var)"
+                    },
+                    fontFamily: {
+                        display: ["Geist", "sans-serif"],
+                        headline: ["Geist", "sans-serif"],
+                        "label-mono": ["Geist Mono", "monospace"],
+                        junicode: ["Junicode Condensed", "serif"]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+
+<body class="bg-background text-on-background antialiased selection:bg-primary selection:text-background">
+
+    <header class="fixed top-0 left-0 w-full px-6 md:px-12 py-6 flex justify-between items-center z-50 bg-background/85 backdrop-blur-md border-b border-outline-variant/30">
+        <a href="{{ site.baseurl }}/" class="font-headline font-bold text-2xl text-on-background hover:text-primary">
+            sobre<span class="text-primary">.</span>
+        </a>
+
+        <div class="flex items-center gap-6 md:gap-10">
+            <button data-theme-toggle class="flex items-center text-on-surface-variant hover:text-primary group" aria-label="Alternar modo claro/escuro">
+                <span data-theme-icon class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform">light_mode</span>
+            </button>
+
+            <button data-menu-open class="flex items-center gap-3 text-on-surface-variant hover:text-primary group" aria-label="Abrir menu">
+                <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
+                <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+        <section class="about-shell">
+            <div class="about-hero">
+                <div>
+                    <a href="{{ site.baseurl }}/" class="about-eyebrow hover:text-primary">
+                        Voltar ao início
+                    </a>
+
+                    <h1 class="about-title font-junicode">
+                        Sobre nós.
+                    </h1>
+                </div>
+
+                <div class="manifesto-card">
+                    <div class="font-label-mono text-[10px] uppercase tracking-widest text-secondary mb-5">
+                        Manifesto
+                    </div>
+                    <p>
+                        Somos um arquivo editorial dedicado a observar as relações entre tecnologia, arte, economia e linguagem. Publicamos ensaios para pensar o presente com profundidade, sem pressa e sem ruído.
+                    </p>
+                    <a href="{{ site.baseurl }}/manifesto/" class="inline-flex items-center gap-2 mt-8 font-label-mono text-xs uppercase tracking-widest text-on-background hover:text-primary">
+                        Ler manifesto <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <section class="py-20">
+                <div class="border-b border-outline-variant/30 pb-6 mb-10 text-left">
+                    <h2 class="font-junicode text-6xl md:text-8xl leading-none font-bold tracking-tight text-on-background">
+                        Equipe.
+                    </h2>
+                    <p class="text-on-surface-variant text-base md:text-lg leading-relaxed max-w-3xl mt-5">
+                        Conheça as pessoas que escrevem, editam e constroem o projeto.
+                    </p>
+                </div>
+
+                <div class="team-toolbar">
+                    <label>
+                        <span class="font-label-mono text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">Buscar</span>
+                        <input id="author-search" class="team-field" type="search" placeholder="Digite nome, área ou descrição...">
+                    </label>
+
+                    <label>
+                        <span class="font-label-mono text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">Área</span>
+                        <select id="author-role-filter" class="team-field">
+                            <option value="all">Todas</option>
+                            {% assign roles = site.authors | map: "role" | uniq | sort %}
+                            {% for role in roles %}
+                            {% if role %}
+                            <option value="{{ role | downcase | escape }}">{{ role }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+
+                <div id="authors-empty" class="empty-state hidden mb-8">
+                    Nenhum autor encontrado com esses filtros.
+                </div>
+
+                <div id="authors-grid" class="authors-grid">
+                    {% assign sorted_authors = site.authors | sort: "order" %}
+                    {% for author in sorted_authors %}
+                    <article class="author-card" data-name="{{ author.name | downcase | escape }}" data-role="{{ author.role | downcase | escape }}" data-description="{{ author.description | default: author.short_bio | downcase | escape }}">
+                        <div>
+                            {% if author.role %}
+                            <div class="author-role">{{ author.role }}</div>
+                            {% endif %}
+
+                            <h3 class="author-name font-junicode">{{ author.name | default: author.title }}</h3>
+
+                            <p class="author-description">
+                                {{ author.description | default: author.short_bio }}
+                            </p>
+                        </div>
+
+                        <div class="social-row">
+                            {% if author.x_url %}
+                            <a href="{{ author.x_url }}" class="social-link" aria-label="X de {{ author.name }}">X</a>
+                            {% endif %}
+
+                            {% if author.lattes_url %}
+                            <a href="{{ author.lattes_url }}" class="social-link" aria-label="Lattes de {{ author.name }}">L</a>
+                            {% endif %}
+
+                            {% if author.email %}
+                            <a href="mailto:{{ author.email }}" class="social-link" aria-label="Email de {{ author.name }}">
+                                <span class="material-symbols-outlined text-[18px]">mail</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </article>
+                    {% endfor %}
+
+                    {% if site.authors.size == 0 %}
+                    <div class="empty-state">
+                        Nenhum autor cadastrado ainda.
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer id="main-footer" class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 h-24 px-6 md:px-12 flex items-center justify-between gap-6 transition-colors">
+        <a href="{{ site.baseurl }}/" class="font-headline font-bold text-2xl text-on-background hover:text-primary transition-colors shrink-0">
+            sobre<span class="text-primary">.</span>
+        </a>
+
+        <p class="font-label-mono text-xs text-on-surface-variant text-left md:text-center">
+            © 2026 Editorial. Todos os direitos reservados.
+        </p>
+
+        <div class="flex items-center gap-5 md:gap-8 shrink-0">
+            <button data-theme-toggle class="flex items-center text-on-surface-variant hover:text-primary transition-colors group" aria-label="Alternar modo claro/escuro">
+                <span data-theme-icon class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform">light_mode</span>
+            </button>
+
+            <button data-menu-open class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group" aria-label="Abrir menu">
+                <span class="font-label-mono text-xs uppercase tracking-widest hidden md:block">Menu</span>
+                <span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">menu</span>
+            </button>
+        </div>
+    </footer>
+
+    <!-- OVERLAY MENU -->
+    <div id="menu-overlay" class="fixed inset-0 bg-background/95 backdrop-blur-xl z-[100] translate-x-full transition-transform duration-500 flex flex-col">
+        <div class="w-full p-6 md:px-12 md:py-8 flex justify-end border-b border-outline-variant/20">
+            <button id="menu-close" class="text-on-background hover:text-primary transition-colors group flex items-center gap-2">
+                <span class="font-label-mono text-xs uppercase tracking-widest">Fechar</span>
+                <span class="material-symbols-outlined text-4xl group-hover:rotate-90 transition-transform duration-300">close</span>
+            </button>
+        </div>
+
+        <div class="flex-1 flex flex-col md:flex-row w-full max-w-[1400px] mx-auto p-6 md:p-12 gap-12">
+            <div class="w-full md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-outline-variant/20 pb-12 md:pb-0">
+                <div class="font-headline font-bold text-6xl md:text-8xl tracking-tight mb-6 text-on-background">
+                    sobre<span class="text-primary">.</span>
+                </div>
+                <p class="font-label-mono text-on-surface-variant text-sm max-w-sm leading-relaxed uppercase tracking-widest">
+                    Um arquivo digital dedicado à interseção entre tecnologia, arte e economia.
+                </p>
+            </div>
+
+            <div class="w-full md:w-1/2 flex flex-col justify-center">
+                <nav>
+                    <ul class="flex flex-col gap-6 md:gap-8 font-headline text-3xl md:text-5xl font-bold">
+                        <li><a href="{{ site.baseurl }}/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Início</a></li>
+                        <li><a href="{{ site.baseurl }}/#acervo" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Acervo</a></li>
+                        <li><a href="{{ site.baseurl }}/sobre-nos/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Sobre nós</a></li>
+                        <li><a href="{{ site.baseurl }}/manifesto/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Manifesto</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const themeToggles = document.querySelectorAll('[data-theme-toggle]');
+        const themeIcons = document.querySelectorAll('[data-theme-icon]');
+        const htmlElement = document.documentElement;
+
+        function updateThemeIcons() {
+            const iconName = htmlElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+            themeIcons.forEach(icon => icon.textContent = iconName);
+        }
+
+        if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            htmlElement.classList.remove('dark');
+        }
+
+        updateThemeIcons();
+
+        themeToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+                updateThemeIcons();
+            });
+        });
+
+        const authorSearch = document.getElementById('author-search');
+        const authorRoleFilter = document.getElementById('author-role-filter');
+        const authorCards = document.querySelectorAll('.author-card');
+        const authorsEmpty = document.getElementById('authors-empty');
+
+        function normalizeText(value) {
+            return (value || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\\u0300-\\u036f]/g, '')
+                .trim();
+        }
+
+        function filterAuthors() {
+            const query = normalizeText(authorSearch ? authorSearch.value : '');
+            const role = normalizeText(authorRoleFilter ? authorRoleFilter.value : 'all');
+            let visibleCount = 0;
+
+            authorCards.forEach(card => {
+                const name = normalizeText(card.dataset.name);
+                const description = normalizeText(card.dataset.description);
+                const cardRole = normalizeText(card.dataset.role);
+                const matchesQuery = !query || name.includes(query) || description.includes(query) || cardRole.includes(query);
+                const matchesRole = role === 'all' || cardRole === role;
+                const shouldShow = matchesQuery && matchesRole;
+
+                card.classList.toggle('hidden', !shouldShow);
+                if (shouldShow) visibleCount++;
+            });
+
+            if (authorsEmpty) {
+                authorsEmpty.classList.toggle('hidden', visibleCount !== 0);
+            }
+        }
+
+        if (authorSearch) authorSearch.addEventListener('input', filterAuthors);
+        if (authorRoleFilter) authorRoleFilter.addEventListener('change', filterAuthors);
+
+        const menuOpenButtons = document.querySelectorAll('[data-menu-open]');
+        const menuClose = document.getElementById('menu-close');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        if (menuClose && menuOverlay) {
+            menuOpenButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    menuOverlay.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            menuClose.addEventListener('click', () => {
+                menuOverlay.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+            });
+        }
+    </script>
+</body>
+</html>

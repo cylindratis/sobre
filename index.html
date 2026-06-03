@@ -563,8 +563,10 @@ layout: null
     </header>
 
     <!-- PÁGINA 1: Hero Section (Rolada Direta ativada) -->
-    <section class="snap-start relative z-10 w-full h-screen flex flex-col justify-end px-6 md:px-12 pb-12">
-        <!-- Explorar removido a pedido -->
+    <section class="snap-start relative z-10 w-full h-[86vh] min-h-[620px] flex flex-col justify-end px-6 md:px-12 pb-12">
+        <div class="ml-auto mb-2 font-label-mono text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
+            Desça para ler <span class="material-symbols-outlined text-base">keyboard_arrow_down</span>
+        </div>
     </section>
 
     <!-- PÁGINA 2: Supercards editoriais -->
@@ -632,16 +634,44 @@ layout: null
 
     <!-- PÁGINA 3: Acervo (Sem snap para navegação livre) -->
     <section id="acervo" class="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 py-24 min-h-screen scroll-mt-28">
-        <div class="flex flex-col items-start text-left mb-16 border-b border-outline-variant/30 pb-6">
+        <div class="flex flex-col items-start text-left mb-10 border-b border-outline-variant/30 pb-6">
             <h2 class="font-headline-lg text-4xl md:text-6xl font-bold mb-2 text-on-background text-left">Acervo.</h2>
             <p class="text-on-surface-variant font-label-mono uppercase tracking-widest text-xs md:text-sm text-left">O arquivo completo de publicações</p>
+            <p class="text-on-surface-variant text-base md:text-lg leading-relaxed max-w-3xl mt-6 text-left">
+                Navegue pelos ensaios publicados, filtre por autor ou procure por palavras do título e do resumo.
+            </p>
+        </div>
+
+        <!-- Filtros do Acervo -->
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_280px] gap-4 mb-12">
+            <label class="block">
+                <span class="font-label-mono text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">Buscar no acervo</span>
+                <input id="acervo-search" type="search" placeholder="Digite título, tema ou palavra-chave..." class="w-full bg-surface-container-lowest border border-outline-variant/40 px-4 py-4 text-on-background placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-0 font-display">
+            </label>
+
+            <label class="block">
+                <span class="font-label-mono text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">Filtrar por autor</span>
+                <select id="acervo-author-filter" class="w-full bg-surface-container-lowest border border-outline-variant/40 px-4 py-4 text-on-background focus:border-primary focus:ring-0 font-display">
+                    <option value="all">Todos os autores</option>
+                    {% assign acervo_authors = site.posts | map: "author" | uniq | sort %}
+                    {% for author in acervo_authors %}
+                    {% if author %}
+                    <option value="{{ author | downcase | escape }}">{{ author }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+
+        <div id="acervo-empty" class="hidden border border-outline-variant/30 bg-surface-container-lowest p-8 mb-12 text-on-surface-variant font-label-mono text-sm">
+            Nenhum ensaio encontrado com esses filtros.
         </div>
 
         <!-- Grade de Quadros -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+        <div id="acervo-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             
             {% for post in site.posts offset:3 %}
-            <a href="{{ site.baseurl }}{{ post.url }}" class="group flex flex-col h-[550px] border border-outline-variant/30 bg-surface-container-lowest hover:-translate-y-2 transition-all duration-500">
+            <a href="{{ site.baseurl }}{{ post.url }}" class="acervo-card group flex flex-col h-[550px] border border-outline-variant/30 bg-surface-container-lowest hover:-translate-y-2 transition-all duration-500" data-title="{{ post.title | downcase | escape }}" data-author="{{ post.author | downcase | escape }}" data-text="{{ post.excerpt | strip_html | downcase | escape }}">
                 <div class="h-1/2 overflow-hidden border-b border-outline-variant/30 relative">
                     <img src="{% if post.image %}{{ post.image }}{% else %}https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=600{% endif %}" alt="{{ post.title }}" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700">
                     {% if post.category %}
@@ -650,7 +680,9 @@ layout: null
                 </div>
                 <div class="p-6 md:p-8 flex flex-col flex-grow justify-between">
                     <div>
-                        <div class="font-label-mono text-outline-variant text-[10px] mb-6">{{ post.date | date: "%d.%m.%Y" }}</div>
+                        <div class="font-label-mono text-outline-variant text-[10px] mb-6">
+                            {{ post.date | date: "%d.%m.%Y" }}{% if post.author %} • {{ post.author }}{% endif %}
+                        </div>
                         <h3 class="font-junicode text-3xl leading-none font-bold mb-3 group-hover:text-primary transition-colors line-clamp-3 tracking-tight text-on-background">{{ post.title }}</h3>
                     </div>
                     <div class="font-label-mono text-xs uppercase tracking-widest text-on-surface-variant group-hover:text-primary transition-colors">
@@ -665,7 +697,9 @@ layout: null
 
     <!-- Rodapé -->
     <footer id="main-footer" class="relative z-10 bg-surface-container-lowest border-t border-outline-variant/30 h-24 px-6 md:px-12 flex items-center justify-between gap-6 transition-colors">
-        <div class="w-24 shrink-0"></div> <!-- Placeholder invisível para o logo typewriter que pousará aqui -->
+        <a href="{{ site.baseurl }}/" class="font-headline font-bold text-2xl text-on-background hover:text-primary transition-colors shrink-0">
+            sobre<span class="text-primary">.</span>
+        </a>
 
         <p class="font-label-mono text-xs text-on-surface-variant text-left md:text-center">
             © 2026 Editorial. Todos os direitos reservados.
@@ -673,7 +707,7 @@ layout: null
 
         <div class="flex items-center gap-5 md:gap-8 shrink-0">
             <button data-theme-toggle class="flex items-center text-on-surface-variant hover:text-primary transition-colors group" aria-label="Alternar modo claro/escuro">
-                <span class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform" data-theme-icon>light_mode</span>
+                <span data-theme-icon class="material-symbols-outlined text-2xl group-hover:rotate-45 transition-transform">light_mode</span>
             </button>
 
             <button data-menu-open class="flex items-center gap-3 text-on-surface-variant hover:text-primary transition-colors group" aria-label="Abrir menu">
@@ -703,7 +737,7 @@ layout: null
                     <ul class="flex flex-col gap-6 md:gap-8 font-headline text-3xl md:text-5xl font-bold">
                         <li><a href="{{ site.baseurl }}/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Início</a></li>
                         <li><a href="{{ site.baseurl }}/#acervo" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Acervo</a></li>
-                        <li><a href="{{ site.baseurl }}/autores/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Autores</a></li>
+                        <li><a href="{{ site.baseurl }}/sobre-nos/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Sobre nós</a></li>
                         <li><a href="{{ site.baseurl }}/manifesto/" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-4 group"><span class="w-0 group-hover:w-8 h-[2px] bg-primary transition-all duration-300"></span> Manifesto</a></li>
                     </ul>
                 </nav>
@@ -863,6 +897,47 @@ layout: null
             carousel.addEventListener('touchstart', resetCarouselTimer, {passive: true});
             startCarousel();
         }
+
+
+        // Filtros do Acervo
+        const acervoSearch = document.getElementById('acervo-search');
+        const acervoAuthorFilter = document.getElementById('acervo-author-filter');
+        const acervoCards = document.querySelectorAll('.acervo-card');
+        const acervoEmpty = document.getElementById('acervo-empty');
+
+        function normalizeText(value) {
+            return (value || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .trim();
+        }
+
+        function filterAcervo() {
+            const query = normalizeText(acervoSearch ? acervoSearch.value : '');
+            const author = normalizeText(acervoAuthorFilter ? acervoAuthorFilter.value : 'all');
+            let visibleCount = 0;
+
+            acervoCards.forEach(card => {
+                const cardTitle = normalizeText(card.dataset.title);
+                const cardText = normalizeText(card.dataset.text);
+                const cardAuthor = normalizeText(card.dataset.author);
+                const matchesQuery = !query || cardTitle.includes(query) || cardText.includes(query) || cardAuthor.includes(query);
+                const matchesAuthor = author === 'all' || cardAuthor === author;
+                const shouldShow = matchesQuery && matchesAuthor;
+
+                card.classList.toggle('hidden', !shouldShow);
+                if (shouldShow) visibleCount++;
+            });
+
+            if (acervoEmpty) {
+                acervoEmpty.classList.toggle('hidden', visibleCount !== 0);
+            }
+        }
+
+        if (acervoSearch) acervoSearch.addEventListener('input', filterAcervo);
+        if (acervoAuthorFilter) acervoAuthorFilter.addEventListener('change', filterAcervo);
+
 
         // Menu Toggle
         const menuOpenButtons = document.querySelectorAll('[data-menu-open]');
