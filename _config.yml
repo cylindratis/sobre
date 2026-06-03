@@ -1,5 +1,8 @@
 name: sobre.
-description: Editorial Technical Blog - Explorando tecnologia, cultura e economia
+description:
 baseurl: "https://cylindratis.github.io/sobre/" # Isso diz ao Jekyll que seu site vive nessa subpasta
 theme: minima
 permalink: /:categories/:year/:month/:day/:title/
+collections:
+  authors:
+    output: false
